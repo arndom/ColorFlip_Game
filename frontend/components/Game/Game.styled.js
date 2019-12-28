@@ -32,7 +32,7 @@ export const StyledGameContainer = styled.div`
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	position: relative;
 	&:after {

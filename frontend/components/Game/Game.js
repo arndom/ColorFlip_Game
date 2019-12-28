@@ -170,31 +170,8 @@ export class Game extends React.Component {
 	render() {
 		let { level, win } = this.state;
 		return(
-			<div>
-				<StyledGameContainer>
-					<StyledBackgroundContainer>
-					{level.map(
-						(row, row_index) => {
-							return(
-							<StyledGameRow key={row_index}>
-								{
-									row.map(
-										(cell, cell_index) => {
-											return(
-												<StyledGameCell
-													key={cell_index}
-													image={this.groundImage}
-												/>
-											)
-										}
-									)
-								}
-							</StyledGameRow>
-							)
-
-						}
-					)}
-					</StyledBackgroundContainer>
+			<StyledGameContainer>
+				<StyledBackgroundContainer>
 				{level.map(
 					(row, row_index) => {
 						return(
@@ -205,9 +182,7 @@ export class Game extends React.Component {
 										return(
 											<StyledGameCell
 												key={cell_index}
-												image={this.images[cell]}
-												endImage={this.endImage}
-												className={this.isEnd(cell_index, row_index) ? 'end' : ''}
+												image={this.groundImage}
 											/>
 										)
 									}
@@ -218,9 +193,32 @@ export class Game extends React.Component {
 
 					}
 				)}
-				{(win && <p>You win!</p>)}
-				</StyledGameContainer>
-			</div>
+				</StyledBackgroundContainer>
+			{level.map(
+				(row, row_index) => {
+					return(
+					<StyledGameRow key={row_index}>
+						{
+							row.map(
+								(cell, cell_index) => {
+									return(
+										<StyledGameCell
+											key={cell_index}
+											image={this.images[cell]}
+											endImage={this.endImage}
+											className={this.isEnd(cell_index, row_index) ? 'end' : ''}
+										/>
+									)
+								}
+							)
+						}
+					</StyledGameRow>
+					)
+
+				}
+			)}
+			{(win && <p>You win!</p>)}
+			</StyledGameContainer>
 		);
 	}
 }
