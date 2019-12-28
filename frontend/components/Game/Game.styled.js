@@ -3,6 +3,8 @@ import Koji from '@withkoji/vcc';
 
 export const StyledBackgroundContainer = styled.div`
 	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
 	z-index: 9;
 	border-radius: 6px;
 	overflow: hidden;
@@ -53,7 +55,7 @@ export const StyledGameContainerInner = styled.div`
 
 export const StyledGameRow = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 	position: relative;
 	z-index: 10;
@@ -86,4 +88,5 @@ export const StyledButton = styled.a`
 	border-bottom: 2px solid rgba(0,0,0,0.3);
 	font-weight: bold;
 	text-transform: uppercase;
+	margin: 0 5px;
 `;
