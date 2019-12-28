@@ -1,6 +1,14 @@
 import React from 'react';
 import Koji from '@withkoji/vcc';
-import { StyledBackgroundContainer, StyledGameContainer, StyledGameRow, StyledGameCell } from './Game.styled';
+
+import {
+	StyledBackgroundContainer,
+	StyledGameContainer,
+	StyledGameContainerInner,
+	StyledGameRow,
+	StyledButton,
+	StyledButtonContainer,
+	StyledGameCell} from './Game.styled';
 
 export class Game extends React.Component {
 	EMPTY = 0;
@@ -17,6 +25,7 @@ export class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			currentLevel: props.currentLevel,
 			level: [],
 			win: false
 		};
@@ -36,7 +45,7 @@ export class Game extends React.Component {
 			this.forceUpdate();
 		});
 
-		this.loadLevel(0);
+		this.loadLevel();
 		document.addEventListener('keydown', this.keyDown);
 	}
 
@@ -57,8 +66,10 @@ export class Game extends React.Component {
 		}
 	};
 
-	loadLevel = (levelNumber) => {
-		let levelData = Koji.config.levels.levels[levelNumber];
+	loadLevel = () => {
+		const { currentLevel } = this.state;
+		// Use stringify->parse to get a deep copy and not edit the config json
+		let levelData = JSON.parse(JSON.stringify(Koji.config.levels.levels[currentLevel]));
 		let level = levelData['level'];
 		this.ends = levelData['ends'];
 		this.ROW_MAX = level.length - 1;
@@ -171,53 +182,63 @@ export class Game extends React.Component {
 		let { level, win } = this.state;
 		return(
 			<StyledGameContainer>
-				<StyledBackgroundContainer>
-				{level.map(
-					(row, row_index) => {
-						return(
-						<StyledGameRow key={row_index}>
-							{
-								row.map(
-									(cell, cell_index) => {
-										return(
-											<StyledGameCell
-												key={cell_index}
-												image={this.groundImage}
-											/>
-										)
-									}
-								)
-							}
-						</StyledGameRow>
-						)
-
-					}
-				)}
-				</StyledBackgroundContainer>
-			{level.map(
-				(row, row_index) => {
-					return(
-					<StyledGameRow key={row_index}>
-						{
-							row.map(
-								(cell, cell_index) => {
-									return(
-										<StyledGameCell
-											key={cell_index}
-											image={this.images[cell]}
-											endImage={this.endImage}
-											className={this.isEnd(cell_index, row_index) ? 'end' : ''}
-										/>
+				<StyledGameContainerInner>
+					<StyledBackgroundContainer>
+					{level.map(
+						(row, row_index) => {
+							return(
+							<StyledGameRow key={row_index}>
+								{
+									row.map(
+										(cell, cell_index) => {
+											return(
+												<StyledGameCell
+													key={cell_index}
+													image={this.groundImage}
+												/>
+											)
+										}
 									)
 								}
+							</StyledGameRow>
 							)
-						}
-					</StyledGameRow>
-					)
 
-				}
-			)}
-			{(win && <p>You win!</p>)}
+						}
+					)}
+					</StyledBackgroundContainer>
+					{level.map(
+						(row, row_index) => {
+							return(
+							<StyledGameRow key={row_index}>
+								{
+									row.map(
+										(cell, cell_index) => {
+											return(
+												<StyledGameCell
+													key={cell_index}
+													image={this.images[cell]}
+													endImage={this.endImage}
+													className={this.isEnd(cell_index, row_index) ? 'end' : ''}
+												/>
+											)
+										}
+									)
+								}
+							</StyledGameRow>
+							)
+
+						}
+					)}
+					{(win && <p>You win!</p>)}
+					<StyledButtonContainer>
+						<StyledButton>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+						</StyledButton>
+						<StyledButton onClick={this.loadLevel}>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+						</StyledButton>
+					</StyledButtonContainer>
+				</StyledGameContainerInner>
 			</StyledGameContainer>
 		);
 	}

@@ -1,6 +1,7 @@
 {
   "colors": {
     "backgroundColor": "#395b88",
+    "actionColor": "#2ecc9d",
     "textColor": "#fcfcfc"
   },
   "@@editor": [

@@ -47,6 +47,10 @@ export const StyledGameContainer = styled.div`
 	}
 `;
 
+export const StyledGameContainerInner = styled.div`
+	z-index: 11;
+`;
+
 export const StyledGameRow = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -65,4 +69,21 @@ export const StyledGameCell = styled.span`
 	&.end {
 		background-image: url("${props => props.endImage}"), url("${props => props.image}");
 	}
+`;
+
+export const StyledButtonContainer = styled.div`
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-between;
+`;
+
+export const StyledButton = styled.a`
+	text-decoration: none;
+	display: inline-block;
+	padding: 5px 15px;
+	background-color: ${Koji.config.colors.actionColor};
+	border-radius: 6px;
+	border-bottom: 2px solid rgba(0,0,0,0.3);
+	font-weight: bold;
+	text-transform: uppercase;
 `;

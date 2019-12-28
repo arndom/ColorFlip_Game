@@ -5,7 +5,7 @@ import { Game } from '../components/Game';
 class App extends React.Component {
   render() {
     return (
-      <Game />
+      <Game currentLevel={0} />
     );
   }
 }
