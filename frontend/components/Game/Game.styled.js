@@ -90,3 +90,9 @@ export const StyledButton = styled.a`
 	text-transform: uppercase;
 	margin: 0 5px;
 `;
+
+// Use classic inline-style object for imported module component
+export const StyledSwipeable = {
+	touchAction: 'none',
+	height: '100%'
+};

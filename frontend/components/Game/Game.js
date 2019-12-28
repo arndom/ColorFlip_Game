@@ -1,7 +1,9 @@
 import React from 'react';
 import Koji from '@withkoji/vcc';
+import { useSwipeable, Swipeable } from 'react-swipeable'
 
 import {
+	StyledSwipeable,
 	StyledBackgroundContainer,
 	StyledGameContainer,
 	StyledGameContainerInner,
@@ -186,6 +188,12 @@ export class Game extends React.Component {
 	render() {
 		let { level, win, currentLevel } = this.state;
 		return(
+			<Swipeable
+				style={StyledSwipeable}
+				onSwipedLeft={this.moveLeft}
+				onSwipedRight={this.moveRight}
+				onSwipedUp={this.moveUp}
+				onSwipedDown={this.moveDown}>
 			<StyledGameContainer>
 				<StyledGameContainerInner>
 					<StyledBackgroundContainer>
@@ -249,6 +257,7 @@ export class Game extends React.Component {
 					</StyledButtonContainer>
 				</StyledGameContainerInner>
 			</StyledGameContainer>
+			</Swipeable>
 		);
 	}
 }
