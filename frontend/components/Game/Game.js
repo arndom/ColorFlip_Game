@@ -17,6 +17,10 @@ export class Game extends React.Component {
 	PLAYER = 1;
 	BOX = 2;
 	WALL = 3;
+	PLAYER_DOWN = 0;
+	PLAYER_UP = 1;
+	PLAYER_RIGHT = 2;
+	PLAYER_LEFT = 3;
 	ends = [];
 	ROW_MAX = 0;
 	COL_MAX = 0;
@@ -24,6 +28,7 @@ export class Game extends React.Component {
 	groundImage = '';
 	endImage = '';
 	currentLevel = 0;
+	player_direction = 0;
 
 	constructor(props) {
 		super(props);
@@ -33,7 +38,13 @@ export class Game extends React.Component {
 		};
 		this.currentLevel = props.currentLevel,
 		this.images[this.EMPTY] = '';
-		this.images[this.PLAYER] = Koji.config.images.player;
+
+		this.images[this.PLAYER] = [];
+		this.images[this.PLAYER][this.PLAYER_DOWN] = Koji.config.images.player,
+		this.images[this.PLAYER][this.PLAYER_UP] = Koji.config.images.player_up ? Koji.config.images.player_up : Koji.config.images.player,
+		this.images[this.PLAYER][this.PLAYER_RIGHT] = Koji.config.images.player_right ? Koji.config.images.player_right : Koji.config.images.player,
+		this.images[this.PLAYER][this.PLAYER_LEFT] = Koji.config.images.player_left ? Koji.config.images.player_left : Koji.config.images.player,
+
 		this.images[this.BOX] = Koji.config.images.box;
 		this.images[this.WALL] = Koji.config.images.wall;
 		this.groundImage = Koji.config.images.ground;
@@ -76,8 +87,13 @@ export class Game extends React.Component {
 		this.ends = levelData['ends'];
 		this.ROW_MAX = level.length - 1;
 		this.COL_MAX = level[0].length - 1;
+		this.player_direction = 0;
 		this.setState({'level': level, 'win': false});
 	};
+
+	restartLevel = () => {
+		this.loadLevel(this.currentLevel);
+	}
 
 	nextLevel = () => {
 		this.currentLevel += 1;
@@ -151,18 +167,22 @@ export class Game extends React.Component {
 	};
 
 	moveLeft = () => {
+		this.player_direction = this.PLAYER_LEFT;
 		this.move(-1,0);
 	};
 
 	moveRight = () => {
+		this.player_direction = this.PLAYER_RIGHT;
 		this.move(1,0);
 	};
 
 	moveDown = () => {
+		this.player_direction = this.PLAYER_DOWN;
 		this.move(0,1);
 	};
 
 	moveUp = () => {
+		this.player_direction = this.PLAYER_UP;
 		this.move(0,-1);
 	};
 
@@ -229,7 +249,7 @@ export class Game extends React.Component {
 											return(
 												<StyledGameCell
 													key={cell_index}
-													image={this.images[cell]}
+													image={cell == this.PLAYER ? this.images[this.PLAYER][this.player_direction] : this.images[cell]}
 													endImage={this.endImage}
 													className={this.isEnd(cell_index, row_index) ? 'end' : ''}
 												/>
@@ -251,7 +271,7 @@ export class Game extends React.Component {
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
 							</StyledButton>
 						)}
-						<StyledButton onClick={this.loadLevel}>
+						<StyledButton onClick={this.restartLevel}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 						</StyledButton>
 					</StyledButtonContainer>

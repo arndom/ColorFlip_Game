@@ -3,6 +3,9 @@
     "icon": "https://images.koji-cdn.com/d9c6b38e-08c4-4faf-ae8e-01082c41a0fb/3f83q-9634d620e97345a6b250ca2feb7e5a2e.png",
     "ground": "/.assets/ground.png",
     "player": "/.assets/player.png",
+    "player_up": "/.assets/player_up.png",
+    "player_left": "/.assets/player_left.png",
+    "player_right": "/.assets/player_right.png",
     "box": "/.assets/crate.png",
     "wall": "/.assets/block.png",
     "end": "/.assets/end.png"
