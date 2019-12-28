@@ -1,6 +1,6 @@
 import React from 'react';
 import Koji from '@withkoji/vcc';
-import { StyledGameContainer, StyledGameRow, StyledGameCell } from './Game.styled';
+import { StyledBackgroundContainer, StyledGameContainer, StyledGameRow, StyledGameCell } from './Game.styled';
 
 export class Game extends React.Component {
 	EMPTY = 0;
@@ -11,6 +11,8 @@ export class Game extends React.Component {
 	ROW_MAX = 0;
 	COL_MAX = 0;
 	images = [];
+	groundImage = '';
+	endImage = '';
 
 	constructor(props) {
 		super(props);
@@ -18,10 +20,12 @@ export class Game extends React.Component {
 			level: [],
 			win: false
 		};
-		this.images[this.EMPTY] = Koji.config.images.empty;
+		this.images[this.EMPTY] = '';
 		this.images[this.PLAYER] = Koji.config.images.player;
 		this.images[this.BOX] = Koji.config.images.box;
 		this.images[this.WALL] = Koji.config.images.wall;
+		this.groundImage = Koji.config.images.ground;
+		this.endImage = Koji.config.images.end;
 	}
 
 	componentDidMount() {
@@ -166,32 +170,57 @@ export class Game extends React.Component {
 	render() {
 		let { level, win } = this.state;
 		return(
-			<StyledGameContainer>
-			{level.map(
-				(row, row_index) => {
-					return(
-					<StyledGameRow key={row_index}>
-						{
-							row.map(
-								(cell, cell_index) => {
-									return(
-										<StyledGameCell
-											key={cell_index}
-											image={this.images[cell]}
-											className={this.isEnd(cell_index, row_index) ? 'end' : ''}>
-												{cell}
-										</StyledGameCell>
+			<div>
+				<StyledGameContainer>
+					<StyledBackgroundContainer>
+					{level.map(
+						(row, row_index) => {
+							return(
+							<StyledGameRow key={row_index}>
+								{
+									row.map(
+										(cell, cell_index) => {
+											return(
+												<StyledGameCell
+													key={cell_index}
+													image={this.groundImage}
+												/>
+											)
+										}
 									)
 								}
+							</StyledGameRow>
 							)
-						}
-					</StyledGameRow>
-					)
 
-				}
-			)}
-			{(win && <p>You win!</p>)}
-			</StyledGameContainer>
+						}
+					)}
+					</StyledBackgroundContainer>
+				{level.map(
+					(row, row_index) => {
+						return(
+						<StyledGameRow key={row_index}>
+							{
+								row.map(
+									(cell, cell_index) => {
+										return(
+											<StyledGameCell
+												key={cell_index}
+												image={this.images[cell]}
+												endImage={this.endImage}
+												className={this.isEnd(cell_index, row_index) ? 'end' : ''}
+											/>
+										)
+									}
+								)
+							}
+						</StyledGameRow>
+						)
+
+					}
+				)}
+				{(win && <p>You win!</p>)}
+				</StyledGameContainer>
+			</div>
 		);
 	}
 }

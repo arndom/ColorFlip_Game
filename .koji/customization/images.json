@@ -1,10 +1,11 @@
 {
   "images": {
     "icon": "https://images.koji-cdn.com/d9c6b38e-08c4-4faf-ae8e-01082c41a0fb/3f83q-9634d620e97345a6b250ca2feb7e5a2e.png",
-    "empty": "http://localhost:8080/.assets/ground.png",
+    "ground": "http://localhost:8080/.assets/ground.png",
     "player": "http://localhost:8080/.assets/player.png",
     "box": "http://localhost:8080/.assets/crate.png",
-    "wall": "http://localhost:8080/.assets/block.png"
+    "wall": "http://localhost:8080/.assets/block.png",
+    "end": "http://localhost:8080/.assets/end.png"
   },
   "@@editor": [
     {
