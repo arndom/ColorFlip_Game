@@ -6,7 +6,8 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./.internals/webpack.production.js --color -p --progress --hide-modules --display-optimization-bailout",
     "prestart": "koji-vcc watch &",
-    "start": "webpack-dev-server --config ./.internals/webpack.development.js --inline --hot"
+    "start": "webpack-dev-server --config ./.internals/webpack.development.js --inline --hot",
+    "gc": ".scripts/gc.sh"
   },
   "dependencies": {
     "@withkoji/custom-vcc-sdk": "0.0.6",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
