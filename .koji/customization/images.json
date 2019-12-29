@@ -1,13 +1,13 @@
 {
   "images": {
-    "ground": "/.assets/ground.png",
-    "player": "/.assets/player.png",
-    "player_up": "/.assets/player_up.png",
-    "player_left": "/.assets/player_left.png",
-    "player_right": "/.assets/player_right.png",
-    "box": "/.assets/crate.png",
-    "wall": "/.assets/block.png",
-    "end": "/.assets/end.png"
+    "ground": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/q6ssr-ground.png",
+    "player": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/t0o0u-player.png",
+    "player_up": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/trccp-player_up.png",
+    "player_left": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/8ho59-player_left.png",
+    "player_right": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/tfml7-player_right.png",
+    "box": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/tkyar-crate.png",
+    "wall": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/6h81f-block.png",
+    "end": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/1imef-end.png"
   },
   "@@editor": [
     {
