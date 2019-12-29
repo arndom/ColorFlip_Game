@@ -2,7 +2,7 @@
   "background": {
     "useFloorImage": true,
     "backgroundImage": "",
-    "animate": false
+    "animate": true
   },
   "@@editor": [
     {
