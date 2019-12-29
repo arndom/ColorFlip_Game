@@ -29,6 +29,9 @@ export class Game extends React.Component {
 	endImage = '';
 	currentLevel = 0;
 	player_direction = 0;
+	useFloorImage = false;
+	backgroundImage = '';
+	animateBackground = false;
 
 	constructor(props) {
 		super(props);
@@ -49,6 +52,10 @@ export class Game extends React.Component {
 		this.images[this.WALL] = Koji.config.images.wall;
 		this.groundImage = Koji.config.images.ground;
 		this.endImage = Koji.config.images.end;
+
+		this.useFloorImage = Koji.config.background.useFloorImage;
+		this.backgroundImage = Koji.config.background.backgroundImage;
+		this.animateBackground = Koji.config.background.animate;
 	}
 
 	componentDidMount() {
@@ -207,6 +214,9 @@ export class Game extends React.Component {
 
 	render() {
 		let { level, win, currentLevel } = this.state;
+		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
+		let backgroundClass = this.animateBackground ? 'animate' : '';
+		backgroundClass += this.useFloorImage ? ' darken' : '';
 		return(
 			<Swipeable
 				style={StyledSwipeable}
@@ -214,7 +224,7 @@ export class Game extends React.Component {
 				onSwipedRight={this.moveRight}
 				onSwipedUp={this.moveUp}
 				onSwipedDown={this.moveDown}>
-			<StyledGameContainer>
+			<StyledGameContainer backgroundImage={backgroundImage} className={backgroundClass}>
 				<StyledGameContainerInner>
 					<StyledBackgroundContainer>
 					{level.map(

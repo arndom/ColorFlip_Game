@@ -1,6 +1,6 @@
 {
   "colors": {
-    "backgroundColor": "#395b88",
+    "backgroundColor": "#00AAFF",
     "actionColor": "#2ecc9d",
     "textColor": "#fcfcfc"
   },
@@ -8,7 +8,7 @@
     {
       "key": "colors",
       "name": "Colors",
-      "icon": "💅",
+      "icon": "🎨",
       "source": "colors.json",
       "fields": [
         {

@@ -1,0 +1,35 @@
+{
+  "background": {
+    "useFloorImage": true,
+    "backgroundImage": "",
+    "animate": false
+  },
+  "@@editor": [
+    {
+      "key": "background",
+      "name": "Background",
+      "icon": "🌄",
+      "source": "background.json",
+      "fields": [
+        {
+          "key": "useFloorImage",
+          "name": "Use Floor Image",
+          "description": "Use the image uploaded for the floor as the background image - it will be made 40% darker so as not to clash",
+          "type": "boolean"
+        },
+        {
+          "key": "backgroundImage",
+          "name": "Background Image",
+          "description": "Image to use as background if 'Use Floor Image' is set to false",
+          "type": "image"
+        },
+        {
+          "key": "animate",
+          "name": "Animate Background",
+          "description": "Whether the background will animate - if enabled it will slowly pan down and right",
+          "type": "boolean"
+        }
+      ]
+    }
+  ]
+}

@@ -22,12 +22,8 @@ const scroll = keyframes`
 
 export const StyledGameContainer = styled.div`
 	background-color: ${Koji.config.colors.backgroundColor};
-	background-image: url(${Koji.config.images.ground});
+	background-image: url("${props => props.backgroundImage}");
 	background-size: 128px 128px;
-	animation-name: ${scroll};
-	animation-duration: 10s;
-	animation-iteration-count: infinite;
-	animation-timing-function: linear;
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
@@ -37,7 +33,13 @@ export const StyledGameContainer = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 	position: relative;
-	&:after {
+	&.animate {
+		animation-name: ${scroll};
+		animation-duration: 10s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+	}
+	&.darken:after {
 		content: '';
 		position: absolute;
 		top: 0;
