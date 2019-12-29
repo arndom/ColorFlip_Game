@@ -20,6 +20,13 @@
         {
           "key": "backgroundColor",
           "name": "Background color",
+          "description": "Color for game background if no background image is set",
+          "type": "color"
+        },
+        {
+          "key": "actionColor",
+          "name": "Button Color",
+          "description": "Color used as background for buttons",
           "type": "color"
         }
       ]

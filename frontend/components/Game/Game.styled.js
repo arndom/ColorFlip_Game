@@ -85,10 +85,32 @@ export const StyledButton = styled.a`
 	padding: 5px 15px;
 	background-color: ${Koji.config.colors.actionColor};
 	border-radius: 6px;
-	border-bottom: 2px solid rgba(0,0,0,0.3);
+	border-bottom: 4px solid rgba(0,0,0,0.3);
 	font-weight: bold;
 	text-transform: uppercase;
 	margin: 0 5px;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+	svg {
+		fill: ${Koji.config.colors.textColor};
+	}
+	&:hover:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(255,255,255, 0.3);
+	}
+	&:active {
+		border-bottom-width: 0px;
+		margin-bottom: 4px;
+		transform: translateY(4px);
+	}
 `;
 
 // Use classic inline-style object for imported module component
