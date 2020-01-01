@@ -76,9 +76,9 @@ export const StyledGameCell = styled.span`
 `;
 
 export const StyledButtonContainer = styled.div`
-	margin-top: 10px;
+	margin-bottom: 10px;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 `;
 
 export const StyledButton = styled.a`
