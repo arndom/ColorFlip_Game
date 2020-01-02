@@ -41,7 +41,8 @@ export class Game extends React.Component {
 			level: [],
 			win: false,
 			readInstructions: false,
-			levelSelect: false
+			levelSelect: false,
+			levelsCompleted: []
 		};
 		this.currentLevel = props.currentLevel,
 		this.images[this.EMPTY] = '';
@@ -104,6 +105,7 @@ export class Game extends React.Component {
 		this.ROW_MAX = level.length - 1;
 		this.COL_MAX = level[0].length - 1;
 		this.player_direction = 0;
+		this.currentLevel = levelNumber;
 		this.setState({'level': level, 'win': false, 'levelSelect': false});
 	};
 
@@ -122,7 +124,7 @@ export class Game extends React.Component {
 
 	closeLevelSelect = () => {
 		this.setState({levelSelect:false});
-	}
+	};
 
 	findPlayer = () => {
 		const { level } = this.state;
@@ -216,6 +218,9 @@ export class Game extends React.Component {
 				return false;
 			}
 		}
+		let { levelsCompleted } = this.state;
+		levelsCompleted.push(this.currentLevel);
+		this.setState({levelsCompleted: levelsCompleted});
 		return true;
 	};
 
@@ -230,7 +235,7 @@ export class Game extends React.Component {
 
 
 	render() {
-		let { level, win, currentLevel, readInstructions, levelSelect } = this.state;
+		let { level, win, currentLevel, readInstructions, levelSelect, levelsCompleted } = this.state;
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
 		let backgroundClass = this.animateBackground ? 'animate' : '';
 		backgroundClass += this.useFloorImage ? ' darken' : '';
@@ -326,7 +331,7 @@ export class Game extends React.Component {
 							(level, level_index) => {
 								return(
 									<span key={'container-'+level_index}>
-										<StyledButton key={level_index} onClick={()=>{this.loadLevel(level_index)}}>
+										<StyledButton className={levelsCompleted.includes(level_index)? 'done' : ''} key={level_index} onClick={()=>{this.loadLevel(level_index)}}>
 											{level_index+1}
 										</StyledButton>
 										{((level_index+1)%4==0 && <br data-i={level_index} key={'br-'+level_index}/>)}

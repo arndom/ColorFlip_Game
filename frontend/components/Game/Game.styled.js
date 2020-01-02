@@ -117,6 +117,14 @@ export const StyledButton = styled.a`
 		margin-bottom: 4px;
 		transform: translateY(4px);
 	}
+	&.done:before{
+		position: absolute;
+		right: 2px;
+		bottom: 0;
+		content: '✓';
+		z-index: 99;
+		color: gold;
+	}
 `;
 
 export const StyledLevelList = styled.div`
