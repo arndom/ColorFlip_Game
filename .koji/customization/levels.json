@@ -769,6 +769,309 @@
             "y": 3
           }
         ]
+      },
+      {
+        "level": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            0,
+            3,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            0,
+            3
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            3,
+            0,
+            0
+          ],
+          [
+            null,
+            1,
+            null,
+            2,
+            null,
+            null,
+            2,
+            0
+          ],
+          [
+            null,
+            null,
+            null,
+            null,
+            null,
+            3,
+            0,
+            0
+          ]
+        ],
+        "ends": [
+          {
+            "x": 1,
+            "y": 1
+          },
+          {
+            "x": 2,
+            "y": 1
+          },
+          {
+            "x": 3,
+            "y": 1
+          }
+        ]
+      },
+      {
+        "level": [
+          [
+            0,
+            0,
+            3,
+            0,
+            0,
+            3,
+            0,
+            0,
+            3,
+            0,
+            0,
+            3,
+            0,
+            0,
+            0
+          ],
+          [
+            null,
+            1,
+            3,
+            null,
+            2,
+            0,
+            null,
+            2,
+            null,
+            null,
+            0,
+            3,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            2,
+            0,
+            null,
+            0,
+            3,
+            null,
+            0,
+            3,
+            null,
+            2,
+            0,
+            null,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            3,
+            null,
+            null,
+            3,
+            null,
+            null,
+            3,
+            null,
+            null,
+            3,
+            null,
+            null,
+            null
+          ]
+        ],
+        "ends": [
+          {
+            "x": 0,
+            "y": 2
+          },
+          {
+            "x": 3,
+            "y": 1
+          },
+          {
+            "x": 6,
+            "y": 1
+          },
+          {
+            "x": 9,
+            "y": 2
+          }
+        ]
+      },
+      {
+        "level": [
+          [
+            3,
+            3,
+            0,
+            0,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            null,
+            null,
+            null,
+            null,
+            3
+          ],
+          [
+            3,
+            3,
+            2,
+            null,
+            3,
+            null,
+            3
+          ],
+          [
+            1,
+            null,
+            2,
+            null,
+            3,
+            null,
+            null
+          ],
+          [
+            null,
+            3,
+            2,
+            null,
+            null,
+            3,
+            null
+          ],
+          [
+            null,
+            null,
+            null,
+            3,
+            null,
+            null,
+            null
+          ]
+        ],
+        "ends": [
+          {
+            "x": 3,
+            "y": 2
+          },
+          {
+            "x": 3,
+            "y": 3
+          },
+          {
+            "x": 3,
+            "y": 4
+          }
+        ]
+      },
+      {
+        "level": [
+          [
+            3,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            null,
+            2,
+            null,
+            3,
+            null
+          ],
+          [
+            null,
+            null,
+            2,
+            null,
+            null
+          ],
+          [
+            null,
+            null,
+            3,
+            2,
+            3
+          ],
+          [
+            3,
+            null,
+            null,
+            1,
+            3
+          ]
+        ],
+        "ends": [
+          {
+            "x": 1,
+            "y": 1
+          },
+          {
+            "x": 1,
+            "y": 2
+          },
+          {
+            "x": 3,
+            "y": 0
+          }
+        ]
       }
     ]
   },
@@ -783,7 +1086,7 @@
           "key": "levels",
           "name": "Levels",
           "description": "List of levels for the game",
-          "type": "custom<https://8080-5629eefe-5969-4d3d-84f9-91f22ad44efe.koji-staging.com>[]"
+          "type": "custom<https://8080-1b99e3e2-71c6-4709-8a8b-090aa4c445c7.koji-staging.com>[]"
         }
       ]
     }
