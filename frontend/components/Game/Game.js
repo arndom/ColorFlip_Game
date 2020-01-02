@@ -38,7 +38,8 @@ export class Game extends React.Component {
 		super(props);
 		this.state = {
 			level: [],
-			win: false
+			win: false,
+			readInstructions: false
 		};
 		this.currentLevel = props.currentLevel,
 		this.images[this.EMPTY] = '';
@@ -106,11 +107,15 @@ export class Game extends React.Component {
 
 	restartLevel = () => {
 		this.loadLevel(this.currentLevel);
-	}
+	};
 
 	nextLevel = () => {
 		this.currentLevel += 1;
 		this.loadLevel(this.currentLevel);
+	};
+
+	closeInstructions = () => {
+		this.setState({readInstructions:true});
 	};
 
 	findPlayer = () => {
@@ -219,7 +224,7 @@ export class Game extends React.Component {
 
 
 	render() {
-		let { level, win, currentLevel } = this.state;
+		let { level, win, currentLevel, readInstructions } = this.state;
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
 		let backgroundClass = this.animateBackground ? 'animate' : '';
 		backgroundClass += this.useFloorImage ? ' darken' : '';
@@ -234,7 +239,7 @@ export class Game extends React.Component {
 				<StyledGameContainerInner>
                     <StyledButtonContainer>
 						<StyledButton>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 						</StyledButton>
 						<StyledButton onClick={this.restartLevel}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
@@ -294,6 +299,15 @@ export class Game extends React.Component {
 					<p>Click or press spacebar for next level.</p>
 					<StyledButton onClick={this.nextLevel}>
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+					</StyledButton>
+				</Modal>
+			)}
+			{(!readInstructions &&
+				<Modal>
+					<h3>Welcome to Sokoban!</h3>
+					<p>Use the arrow keys or swipe to move.<br/>Push the crates into the slots to win.</p>
+					<StyledButton onClick={this.closeInstructions}>
+						Start
 					</StyledButton>
 				</Modal>
 			)}

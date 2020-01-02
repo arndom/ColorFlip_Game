@@ -95,6 +95,7 @@ export const StyledButton = styled.a`
 	overflow: hidden;
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
+	color: ${Koji.config.colors.textColor};
 	svg {
 		fill: ${Koji.config.colors.textColor};
 	}
