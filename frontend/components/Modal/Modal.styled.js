@@ -46,4 +46,24 @@ export const StyledModalInner = styled.div`
 	animation-duration: 0.4s;
 	animation-iteration-count: 1;
 	animation-timing-function: ease-in-out;
+	position: relative;
+`;
+
+export const StyledClose = styled.a`
+	cursor: pointer;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	border-radius: 50%;
+	background-color: #DDD;
+	width: 24px;
+	height: 24px;
+	text-align: center;
+	vertical-align: center;
+	svg {
+		fill: #FFF;
+	}
+	&:hover {
+		background-color: #AAA;
+	}
 `;

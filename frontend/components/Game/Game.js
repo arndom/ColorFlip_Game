@@ -11,7 +11,8 @@ import {
 	StyledGameRow,
 	StyledButton,
 	StyledButtonContainer,
-	StyledGameCell} from './Game.styled';
+	StyledGameCell,
+	StyledLevelList} from './Game.styled';
 
 export class Game extends React.Component {
 	EMPTY = 0;
@@ -39,7 +40,8 @@ export class Game extends React.Component {
 		this.state = {
 			level: [],
 			win: false,
-			readInstructions: false
+			readInstructions: false,
+			levelSelect: false
 		};
 		this.currentLevel = props.currentLevel,
 		this.images[this.EMPTY] = '';
@@ -102,7 +104,7 @@ export class Game extends React.Component {
 		this.ROW_MAX = level.length - 1;
 		this.COL_MAX = level[0].length - 1;
 		this.player_direction = 0;
-		this.setState({'level': level, 'win': false});
+		this.setState({'level': level, 'win': false, 'levelSelect': false});
 	};
 
 	restartLevel = () => {
@@ -117,6 +119,10 @@ export class Game extends React.Component {
 	closeInstructions = () => {
 		this.setState({readInstructions:true});
 	};
+
+	closeLevelSelect = () => {
+		this.setState({levelSelect:false});
+	}
 
 	findPlayer = () => {
 		const { level } = this.state;
@@ -224,10 +230,11 @@ export class Game extends React.Component {
 
 
 	render() {
-		let { level, win, currentLevel, readInstructions } = this.state;
+		let { level, win, currentLevel, readInstructions, levelSelect } = this.state;
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
 		let backgroundClass = this.animateBackground ? 'animate' : '';
 		backgroundClass += this.useFloorImage ? ' darken' : '';
+		const levels = Koji.config.levels.levels;
 		return(
 			<Swipeable
 				style={StyledSwipeable}
@@ -238,7 +245,7 @@ export class Game extends React.Component {
 			<StyledGameContainer backgroundImage={backgroundImage} className={backgroundClass}>
 				<StyledGameContainerInner>
                     <StyledButtonContainer>
-						<StyledButton>
+						<StyledButton onClick={()=>{this.setState({levelSelect:true})}}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 						</StyledButton>
 						<StyledButton onClick={this.restartLevel}>
@@ -303,12 +310,31 @@ export class Game extends React.Component {
 				</Modal>
 			)}
 			{(!readInstructions &&
-				<Modal>
+				<Modal close={this.closeInstructions}>
 					<h3>Welcome to Sokoban!</h3>
 					<p>Use the arrow keys or swipe to move.<br/>Push the crates into the slots to win.</p>
 					<StyledButton onClick={this.closeInstructions}>
 						Start
 					</StyledButton>
+				</Modal>
+			)}
+			{(levelSelect &&
+				<Modal close={this.closeLevelSelect}>
+					<h3>Level Select</h3>
+					<StyledLevelList>
+						{levels.map(
+							(level, level_index) => {
+								return(
+									<span key={'container-'+level_index}>
+										<StyledButton key={level_index} onClick={()=>{this.loadLevel(level_index)}}>
+											{level_index+1}
+										</StyledButton>
+										{((level_index+1)%4==0 && <br data-i={level_index} key={'br-'+level_index}/>)}
+									</span>
+								)
+							}
+						)}
+					</StyledLevelList>
 				</Modal>
 			)}
 			</Swipeable>

@@ -85,17 +85,20 @@ export const StyledButton = styled.a`
 	text-decoration: none;
 	display: inline-block;
 	padding: 5px 15px;
+	box-sizing: border-box;
 	background-color: ${Koji.config.colors.actionColor};
 	border-radius: 6px;
 	border-bottom: 4px solid rgba(0,0,0,0.3);
 	font-weight: bold;
 	text-transform: uppercase;
 	margin: 0 5px;
+	min-width: 50px;
 	position: relative;
 	overflow: hidden;
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
 	color: ${Koji.config.colors.textColor};
+	text-align: center;
 	svg {
 		fill: ${Koji.config.colors.textColor};
 	}
@@ -114,6 +117,10 @@ export const StyledButton = styled.a`
 		margin-bottom: 4px;
 		transform: translateY(4px);
 	}
+`;
+
+export const StyledLevelList = styled.div`
+	text-align: left;
 `;
 
 // Use classic inline-style object for imported module component
