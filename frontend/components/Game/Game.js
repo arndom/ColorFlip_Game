@@ -1,6 +1,7 @@
 import React from 'react';
 import Koji from '@withkoji/vcc';
 import { useSwipeable, Swipeable } from 'react-swipeable'
+import { Modal } from '../Modal';
 
 import {
 	StyledSwipeable,
@@ -84,6 +85,11 @@ export class Game extends React.Component {
 		}
 		if (key === "ArrowDown" || key === 40) {
 			this.moveDown();
+		}
+		if (key === " " || key === 32) {
+			if (this.state.win) {
+				this.nextLevel();
+			}
 		}
 	};
 
@@ -230,11 +236,6 @@ export class Game extends React.Component {
 						<StyledButton>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 						</StyledButton>
-						{(/*win &&*/
-							<StyledButton onClick={this.nextLevel}>	
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-							</StyledButton>
-						)}
 						<StyledButton onClick={this.restartLevel}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 						</StyledButton>
@@ -287,6 +288,15 @@ export class Game extends React.Component {
 					)}
 				</StyledGameContainerInner>
 			</StyledGameContainer>
+			{(win &&
+				<Modal>
+					<h3>Level Complete!</h3>
+					<p>Click or press spacebar for next level.</p>
+					<StyledButton onClick={this.nextLevel}>
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+					</StyledButton>
+				</Modal>
+			)}
 			</Swipeable>
 		);
 	}
