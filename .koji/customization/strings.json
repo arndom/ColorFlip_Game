@@ -1,0 +1,44 @@
+{
+  "strings": {
+    "welcome_title": "Welcome to Sokoban!",
+    "welcome_text_1": "Use the arrow keys or swipe to move.",
+    "welcome_text_2": "Push the crates into the slots to win.",
+    "level_select_title": "Level Select",
+    "level_complete_title": "Level Complete!",
+    "level_complete_text": "Click or press spacebar for next level."
+  },
+  "@@editor": [
+    {
+      "key": "strings",
+      "name": "Strings",
+      "icon": "📝",
+      "source": "strings.json",
+      "fields": [
+        {
+          "key": "currency",
+          "name": "Currency Name",
+          "description": "Name of the main currency earned in your game",
+          "type": "text"
+        },
+        {
+          "key": "welcome_title",
+          "name": "Welcome Title",
+          "description": "Title displayed on the welcome modal",
+          "type": "text"
+        },
+        {
+          "key": "welcome_text",
+          "name": "Welcome Text",
+          "description": "Text displayed on the welcome modal",
+          "type": "textarea"
+        },
+        {
+          "key": "welcome_button_label",
+          "name": "Welcome Button Label",
+          "description": "Button Label displayed on the welcome modal",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

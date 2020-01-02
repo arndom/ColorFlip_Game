@@ -307,8 +307,8 @@ export class Game extends React.Component {
 			</StyledGameContainer>
 			{(win &&
 				<Modal>
-					<h3>Level Complete!</h3>
-					<p>Click or press spacebar for next level.</p>
+					<h3>{Koji.config.strings.level_complete_title}</h3>
+					<p>{Koji.config.strings.level_complete_text}</p>
 					<StyledButton onClick={this.nextLevel}>
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
 					</StyledButton>
@@ -316,8 +316,8 @@ export class Game extends React.Component {
 			)}
 			{(!readInstructions &&
 				<Modal close={this.closeInstructions}>
-					<h3>Welcome to Sokoban!</h3>
-					<p>Use the arrow keys or swipe to move.<br/>Push the crates into the slots to win.</p>
+					<h3>{Koji.config.strings.welcome_title}</h3>
+					<p>{Koji.config.strings.welcome_text_1}<br/>{Koji.config.strings.welcome_text_2}</p>
 					<StyledButton onClick={this.closeInstructions}>
 						Start
 					</StyledButton>
@@ -325,14 +325,20 @@ export class Game extends React.Component {
 			)}
 			{(levelSelect &&
 				<Modal close={this.closeLevelSelect}>
-					<h3>Level Select</h3>
+					<h3>{Koji.config.strings.level_select_title}</h3>
 					<StyledLevelList>
 						{levels.map(
 							(level, level_index) => {
 								return(
 									<span key={'container-'+level_index}>
-										<StyledButton className={levelsCompleted.includes(level_index)? 'done' : ''} key={level_index} onClick={()=>{this.loadLevel(level_index)}}>
-											{level_index+1}
+										<StyledButton
+											className={
+												(levelsCompleted.includes(level_index) ? 'done' : '') +
+												(this.currentLevel == level_index ? ' current': '')
+											}
+											key={level_index}
+											onClick={()=>{this.loadLevel(level_index)}}>
+												{level_index+1}
 										</StyledButton>
 										{((level_index+1)%4==0 && <br data-i={level_index} key={'br-'+level_index}/>)}
 									</span>
