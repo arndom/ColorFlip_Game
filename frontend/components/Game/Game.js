@@ -36,6 +36,7 @@ export class Game extends React.Component {
 	backgroundImage = '';
 	animateBackground = false;
 	OFFSET_THRESHOLD = 2;
+	SCALE_MAX = 7;
 
 	constructor(props) {
 		super(props);
@@ -45,7 +46,8 @@ export class Game extends React.Component {
 			readInstructions: false,
 			levelSelect: false,
 			levelsCompleted: [],
-			offset: {x:0,y:0}
+			offset: {x:0,y:0},
+			zoom: false
 		};
 		this.currentLevel = props.currentLevel,
 		this.images[this.EMPTY] = '';
@@ -151,32 +153,6 @@ export class Game extends React.Component {
 		this.setState({"level": level});
 	};
 
-
-	updateOffset = (player) => {
-		if (this.COL_MAX < 7 && this.ROW_MAX < 7) {
-			this.setState({
-				offset:{x:0,y:0}
-			});
-			return;
-		}
-		const middleX = (this.COL_MAX) / 2;
-		const middleY = (this.ROW_MAX) / 2;
-		let { offset } = this.state;
-		while (player.x < middleX + offset.x - this.OFFSET_THRESHOLD ) {
-			offset.x -= 1;
-		}
-		while (player.x > middleX + offset.x + this.OFFSET_THRESHOLD ) {
-			offset.x += 1;
-		}
-		while (player.y < middleY + offset.y - this.OFFSET_THRESHOLD ) {
-			offset.y -= 1;
-		}
-		while (player.y > middleY + offset.y + this.OFFSET_THRESHOLD ) {
-			offset.y += 1;
-		}
-		this.setState({offset:offset});
-	};
-
 	move = (x,y) => {
 		let player = this.findPlayer(this.state.level);
 		let target = {x:player.x+x, y:player.y+y};
@@ -264,13 +240,51 @@ export class Game extends React.Component {
 		return false;
 	};
 
+	updateOffset = (player) => {
+		if (this.COL_MAX < this.SCALE_MAX && this.ROW_MAX < this.SCALE_MAX) {
+			this.setState({
+				offset:{x:0,y:0}
+			});
+			return;
+		}
+		const middleX = (this.COL_MAX) / 2;
+		const middleY = (this.ROW_MAX) / 2;
+		let { offset } = this.state;
+		while (player.x < middleX + offset.x - this.OFFSET_THRESHOLD ) {
+			offset.x -= 1;
+		}
+		while (player.x > middleX + offset.x + this.OFFSET_THRESHOLD ) {
+			offset.x += 1;
+		}
+		while (player.y < middleY + offset.y - this.OFFSET_THRESHOLD ) {
+			offset.y -= 1;
+		}
+		while (player.y > middleY + offset.y + this.OFFSET_THRESHOLD ) {
+			offset.y += 1;
+		}
+		this.setState({offset:offset});
+	};
+
+	zoomOut = () => {
+		let max_dimension = Math.max(this.COL_MAX, this.ROW_MAX) + 1;
+		let scale = max_dimension > this.SCALE_MAX ? this.SCALE_MAX/max_dimension : false;
+		console.log(scale);
+		console.log(max_dimension)
+		this.setState({zoom:scale});
+	};
+
+	zoomReset = () => {
+		this.setState({zoom:false});
+	};
 
 	render() {
-		let { level, win, currentLevel, readInstructions, levelSelect, levelsCompleted, offset } = this.state;
+		let { level, win, currentLevel, readInstructions, levelSelect, levelsCompleted, offset, zoom } = this.state;
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
 		let backgroundClass = this.animateBackground ? 'animate' : '';
 		backgroundClass += this.useFloorImage ? ' darken' : '';
 		const levels = Koji.config.levels.levels;
+		const max_dimension = Math.max(this.COL_MAX, this.ROW_MAX) + 1;
+		const canZoom = max_dimension > this.SCALE_MAX;
 		return(
 			<Swipeable
 				style={StyledSwipeable}
@@ -287,8 +301,17 @@ export class Game extends React.Component {
 						<StyledButton onClick={this.restartLevel}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 						</StyledButton>
+						{(canZoom && <StyledButton
+							onTouchStart={this.zoomOut}
+							onTouchEnd={this.zoomReset}
+							onMouseDown={this.zoomOut}
+							onMouseUp={this.zoomReset}
+							onMouseLeave={this.zoomReset}
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z"/></svg>
+						</StyledButton>)}
 					</StyledButtonContainer>
-					<StyledLevelContainer offset={offset}>
+					<StyledLevelContainer offset={offset} zoom={zoom}>
 						<StyledBackgroundContainer>
 							{level.map(
 								(row, row_index) => {

@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import Koji from '@withkoji/vcc';
 
 export const StyledBackgroundContainer = styled.div`
@@ -149,7 +149,11 @@ export const StyledLevelList = styled.div`
 `;
 
 export const StyledLevelContainer = styled.div`
-	transform: translate(${(props)=>(props.offset.x*-32)}px, ${(props)=>(props.offset.y*-32)}px);
+	transform: translate(${props=>props.offset.x*-32}px, ${props=>props.offset.y*-32}px);
+	${props => props.zoom && css`
+		transform-origin: top;
+		transform: scale(${props => props.zoom});
+	`}
 `;
 
 // Use classic inline-style object for imported module component
