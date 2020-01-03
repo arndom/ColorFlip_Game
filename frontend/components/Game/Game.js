@@ -69,13 +69,6 @@ export class Game extends React.Component {
 	}
 
 	componentDidMount() {
-		// Force an update of the dom on prop changes
-		// This is just for development situations so
-		// that we can test prop changes in real-time.
-		Koji.on('change', () => {
-			this.forceUpdate();
-		});
-
 		this.loadLevel(this.currentLevel);
 		document.addEventListener('keydown', this.keyDown);
 	}
