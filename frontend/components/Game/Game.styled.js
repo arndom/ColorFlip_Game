@@ -33,6 +33,7 @@ export const StyledGameContainer = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 	position: relative;
+	overflow: hidden;
 	&.animate {
 		animation-name: ${scroll};
 		animation-duration: 10s;
@@ -79,6 +80,8 @@ export const StyledButtonContainer = styled.div`
 	margin-bottom: 10px;
 	display: flex;
 	justify-content: center;
+	position: relative;
+	z-index: 11;
 `;
 
 export const StyledButton = styled.a`
@@ -143,6 +146,10 @@ export const StyledButton = styled.a`
 
 export const StyledLevelList = styled.div`
 	text-align: left;
+`;
+
+export const StyledLevelContainer = styled.div`
+	transform: translate(${(props)=>(props.offset.x*-32)}px, ${(props)=>(props.offset.y*-32)}px);
 `;
 
 // Use classic inline-style object for imported module component

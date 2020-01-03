@@ -12,7 +12,8 @@ import {
 	StyledButton,
 	StyledButtonContainer,
 	StyledGameCell,
-	StyledLevelList} from './Game.styled';
+	StyledLevelList,
+	StyledLevelContainer} from './Game.styled';
 
 export class Game extends React.Component {
 	EMPTY = 0;
@@ -34,6 +35,7 @@ export class Game extends React.Component {
 	useFloorImage = false;
 	backgroundImage = '';
 	animateBackground = false;
+	OFFSET_THRESHOLD = 2;
 
 	constructor(props) {
 		super(props);
@@ -42,7 +44,8 @@ export class Game extends React.Component {
 			win: false,
 			readInstructions: false,
 			levelSelect: false,
-			levelsCompleted: []
+			levelsCompleted: [],
+			offset: {x:0,y:0}
 		};
 		this.currentLevel = props.currentLevel,
 		this.images[this.EMPTY] = '';
@@ -106,6 +109,7 @@ export class Game extends React.Component {
 		this.COL_MAX = level[0].length - 1;
 		this.player_direction = 0;
 		this.currentLevel = levelNumber;
+		this.updateOffset(this.findPlayer(level));
 		this.setState({'level': level, 'win': false, 'levelSelect': false});
 	};
 
@@ -126,8 +130,7 @@ export class Game extends React.Component {
 		this.setState({levelSelect:false});
 	};
 
-	findPlayer = () => {
-		const { level } = this.state;
+	findPlayer = (level) => {
 		for (var i = level.length - 1; i >= 0; i--) {
 			for (var j = level[i].length - 1; j >= 0; j--) {
 				if (level[i][j] == this.PLAYER) {
@@ -148,8 +151,34 @@ export class Game extends React.Component {
 		this.setState({"level": level});
 	};
 
+
+	updateOffset = (player) => {
+		if (this.COL_MAX < 7 && this.ROW_MAX < 7) {
+			this.setState({
+				offset:{x:0,y:0}
+			});
+			return;
+		}
+		const middleX = (this.COL_MAX) / 2;
+		const middleY = (this.ROW_MAX) / 2;
+		let { offset } = this.state;
+		while (player.x < middleX + offset.x - this.OFFSET_THRESHOLD ) {
+			offset.x -= 1;
+		}
+		while (player.x > middleX + offset.x + this.OFFSET_THRESHOLD ) {
+			offset.x += 1;
+		}
+		while (player.y < middleY + offset.y - this.OFFSET_THRESHOLD ) {
+			offset.y -= 1;
+		}
+		while (player.y > middleY + offset.y + this.OFFSET_THRESHOLD ) {
+			offset.y += 1;
+		}
+		this.setState({offset:offset});
+	};
+
 	move = (x,y) => {
-		let player = this.findPlayer()
+		let player = this.findPlayer(this.state.level);
 		let target = {x:player.x+x, y:player.y+y};
 		// Cant leave level
 		if (this.COL_MAX < target.x || target.x < 0 || this.ROW_MAX < target.y || target.y < 0) {
@@ -174,10 +203,11 @@ export class Game extends React.Component {
 				return false;
 			}
 			
-			// TODO: batch these sets as it currently does multiple state updates (therefore multiple re-renders)
+			// TODO: batch these sets as it currently does multiple state updates (therefore possibly multiple re-renders)
 			this.setPosition(boxTarget, this.BOX);
 			this.setPosition(target, this.PLAYER);
 			this.setPosition(player, this.EMPTY);
+			this.updateOffset(target);
 			if (this.win()) {
 				this.setState({'win': true});
 			}
@@ -185,6 +215,7 @@ export class Game extends React.Component {
 		} else {
 			this.setPosition(target, this.PLAYER);
 			this.setPosition(player, this.EMPTY);
+			this.updateOffset(target);
 			if (this.win()) {
 				this.setState({'win': true});
 			}
@@ -235,7 +266,7 @@ export class Game extends React.Component {
 
 
 	render() {
-		let { level, win, currentLevel, readInstructions, levelSelect, levelsCompleted } = this.state;
+		let { level, win, currentLevel, readInstructions, levelSelect, levelsCompleted, offset } = this.state;
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
 		let backgroundClass = this.animateBackground ? 'animate' : '';
 		backgroundClass += this.useFloorImage ? ' darken' : '';
@@ -257,52 +288,54 @@ export class Game extends React.Component {
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 						</StyledButton>
 					</StyledButtonContainer>
-					<StyledBackgroundContainer>
-					{level.map(
-						(row, row_index) => {
-							return(
-							<StyledGameRow key={row_index}>
-								{
-									row.map(
-										(cell, cell_index) => {
-											return(
-												<StyledGameCell
-													key={cell_index}
-													image={this.groundImage}
-												/>
+					<StyledLevelContainer offset={offset}>
+						<StyledBackgroundContainer>
+							{level.map(
+								(row, row_index) => {
+									return(
+									<StyledGameRow key={row_index}>
+										{
+											row.map(
+												(cell, cell_index) => {
+													return(
+														<StyledGameCell
+															key={cell_index}
+															image={this.groundImage}
+														/>
+													)
+												}
 											)
 										}
+									</StyledGameRow>
 									)
-								}
-							</StyledGameRow>
-							)
 
-						}
-					)}
-					</StyledBackgroundContainer>
-					{level.map(
-						(row, row_index) => {
-							return(
-							<StyledGameRow key={row_index}>
-								{
-									row.map(
-										(cell, cell_index) => {
-											return(
-												<StyledGameCell
-													key={cell_index}
-													image={cell == this.PLAYER ? this.images[this.PLAYER][this.player_direction] : this.images[cell]}
-													endImage={this.endImage}
-													className={this.isEnd(cell_index, row_index) ? 'end' : ''}
-												/>
-											)
-										}
-									)
 								}
-							</StyledGameRow>
-							)
+							)}
+						</StyledBackgroundContainer>
+						{level.map(
+							(row, row_index) => {
+								return(
+								<StyledGameRow key={row_index}>
+									{
+										row.map(
+											(cell, cell_index) => {
+												return(
+													<StyledGameCell
+														key={cell_index}
+														image={cell == this.PLAYER ? this.images[this.PLAYER][this.player_direction] : this.images[cell]}
+														endImage={this.endImage}
+														className={this.isEnd(cell_index, row_index) ? 'end' : ''}
+													/>
+												)
+											}
+										)
+									}
+								</StyledGameRow>
+								)
 
-						}
-					)}
+							}
+						)}
+					</StyledLevelContainer>
 				</StyledGameContainerInner>
 			</StyledGameContainer>
 			{(win &&
