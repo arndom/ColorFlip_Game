@@ -196,7 +196,7 @@
           "key": "levels",
           "name": "Levels",
           "description": "List of levels for the game",
-          "type": "custom<https://8080-1b99e3e2-71c6-4709-8a8b-090aa4c445c7.koji-staging.com>[]"
+          "type": "custom<jim-sokoban-level-vcc>[]"
         } ]
     } ]
 }
