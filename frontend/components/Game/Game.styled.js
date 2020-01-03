@@ -100,10 +100,10 @@ export const StyledButton = styled.a`
 	overflow: hidden;
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
-	color: ${Koji.config.colors.textColor};
+	color: ${Koji.config.colors.buttonTextColor};
 	text-align: center;
 	svg {
-		fill: ${Koji.config.colors.textColor};
+		fill: ${Koji.config.colors.buttonTextColor};
 	}
 	&:hover:after {
 		content: '';
@@ -181,5 +181,6 @@ export const StyledTooltop = styled.div`
 // Use classic inline-style object for imported module component
 export const StyledSwipeable = {
 	touchAction: 'none',
-	height: '100%'
+	height: '100%',
+	color: Koji.config.colors.textColor
 };

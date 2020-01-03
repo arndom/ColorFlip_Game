@@ -2,7 +2,8 @@
   "colors": {
     "backgroundColor": "#00AAFF",
     "actionColor": "#2ecc9d",
-    "textColor": "#fcfcfc"
+    "buttonTextColor": "#fcfcfc",
+    "textColor": "#222"
   },
   "@@editor": [
     {
@@ -15,6 +16,12 @@
           "key": "textColor",
           "name": "Text color",
           "description": "Default color for text",
+          "type": "color"
+        },
+        {
+          "key": "buttonTextColor",
+          "name": "Button Text color",
+          "description": "Default color for text on buttons",
           "type": "color"
         },
         {
