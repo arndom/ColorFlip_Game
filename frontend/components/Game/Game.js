@@ -68,6 +68,7 @@ export class Game extends React.Component {
 		this.useFloorImage = Koji.config.background.useFloorImage;
 		this.backgroundImage = Koji.config.background.backgroundImage;
 		this.animateBackground = Koji.config.background.animate;
+		this.loadGame()
 	}
 
 	componentDidMount() {
@@ -97,6 +98,27 @@ export class Game extends React.Component {
 		}
 	};
 
+	saveGame = () => {
+		if (typeof(Storage) !== "undefined") {
+            window.localStorage.setItem('currentLevel', JSON.stringify(this.currentLevel));
+            window.localStorage.setItem('levelsCompleted', JSON.stringify(this.state.levelsCompleted));
+            window.localStorage.setItem('readInstructions', JSON.stringify(this.state.readInstructions));
+        }
+	};
+
+	loadGame = () => {
+		if (typeof(Storage) !== "undefined") {
+			let currentLevel = window.localStorage.getItem('currentLevel');
+			let levelsCompleted = window.localStorage.getItem('levelsCompleted');
+			let readInstructions = window.localStorage.getItem('readInstructions');
+			if (currentLevel) {
+				this.currentLevel = JSON.parse(currentLevel);
+				this.state.levelsCompleted = JSON.parse(levelsCompleted);
+				this.state.readInstructions = JSON.parse(readInstructions);
+			}
+		}
+	}
+
 	loadLevel = (levelNumber) => {
 		// Use stringify->parse to get a deep copy and not edit the config json
 		let levelData = JSON.parse(JSON.stringify(Koji.config.levels.levels[levelNumber]));
@@ -106,6 +128,7 @@ export class Game extends React.Component {
 		this.COL_MAX = level[0].length - 1;
 		this.player_direction = 0;
 		this.currentLevel = levelNumber;
+		this.saveGame();
 		this.updateOffset(this.findPlayer(level));
 		this.setState({'level': level, 'win': false, 'levelSelect': false});
 	};
@@ -120,7 +143,7 @@ export class Game extends React.Component {
 	};
 
 	closeInstructions = () => {
-		this.setState({readInstructions:true});
+		this.setState({readInstructions:true}, this.saveGame);
 	};
 
 	closeLevelSelect = () => {
@@ -222,7 +245,7 @@ export class Game extends React.Component {
 		}
 		let { levelsCompleted } = this.state;
 		levelsCompleted.push(this.currentLevel);
-		this.setState({levelsCompleted: levelsCompleted});
+		this.setState({levelsCompleted: levelsCompleted}, this.saveGame);
 		return true;
 	};
 
