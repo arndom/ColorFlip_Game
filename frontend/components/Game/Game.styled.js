@@ -146,6 +146,7 @@ export const StyledButton = styled.a`
 
 export const StyledLevelList = styled.div`
 	text-align: left;
+	max-width: 250px;
 `;
 
 export const StyledLevelContainer = styled.div`

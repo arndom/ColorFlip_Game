@@ -38,6 +38,7 @@ export class Game extends React.Component {
 	animateBackground = false;
 	OFFSET_THRESHOLD = 2;
 	SCALE_MAX = 7;
+	LEVELS_PER_PAGE = 14;
 
 	constructor(props) {
 		super(props);
@@ -46,6 +47,7 @@ export class Game extends React.Component {
 			win: false,
 			readInstructions: false,
 			levelSelect: false,
+			levelSelectPage: 0,
 			levelsCompleted: [],
 			offset: {x:0,y:0},
 			zoom: false,
@@ -146,8 +148,21 @@ export class Game extends React.Component {
 		this.setState({readInstructions:true}, this.saveGame);
 	};
 
+	openLevelSelect = () => {
+		let currentPage = Math.floor(this.currentLevel / this.LEVELS_PER_PAGE);
+		this.setState({levelSelect:true, levelSelectPage:currentPage});
+	};
+
 	closeLevelSelect = () => {
 		this.setState({levelSelect:false});
+	};
+
+	levelSelectBack = () => {
+		this.setState({levelSelectPage:this.state.levelSelectPage-1});
+	};
+
+	levelSelectForward = () => {
+		this.setState({levelSelectPage:this.state.levelSelectPage+1});
 	};
 
 	findPlayer = (level) => {
@@ -303,7 +318,8 @@ export class Game extends React.Component {
 			levelsCompleted,
 			offset,
 			zoom,
-			hasZoomed
+			hasZoomed,
+			levelSelectPage
 		} = this.state;
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
 		let backgroundClass = this.animateBackground ? 'animate' : '';
@@ -321,7 +337,7 @@ export class Game extends React.Component {
 			<StyledGameContainer backgroundImage={backgroundImage} className={backgroundClass}>
 				<StyledGameContainerInner>
                     <StyledButtonContainer>
-						<StyledButton onClick={()=>{this.setState({levelSelect:true})}}>
+						<StyledButton onClick={this.openLevelSelect}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
 						</StyledButton>
 						<StyledButton onClick={this.restartLevel}>
@@ -414,8 +430,14 @@ export class Game extends React.Component {
 				<Modal close={this.closeLevelSelect}>
 					<h3>{Koji.config.strings.level_select_title}</h3>
 					<StyledLevelList>
+						{(levelSelectPage!= 0 &&
+							<StyledButton key={'back'} onClick={this.levelSelectBack}>
+									&lsaquo;
+							</StyledButton>
+						)}
 						{levels.map(
 							(level, level_index) => {
+								if (Math.floor(level_index /this.LEVELS_PER_PAGE) == levelSelectPage) {
 								return(
 									<span key={'container-'+level_index}>
 										<StyledButton
@@ -427,10 +449,14 @@ export class Game extends React.Component {
 											onClick={()=>{this.loadLevel(level_index)}}>
 												{level_index+1}
 										</StyledButton>
-										{((level_index+1)%4==0 && <br data-i={level_index} key={'br-'+level_index}/>)}
 									</span>
-								)
+								)}
 							}
+						)}
+						{( Math.floor((levels.length - 1) / this.LEVELS_PER_PAGE) > levelSelectPage &&
+							<StyledButton key={'forward'} onClick={this.levelSelectForward}>
+									&rsaquo;
+							</StyledButton>
 						)}
 					</StyledLevelList>
 				</Modal>
