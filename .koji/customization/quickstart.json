@@ -1,0 +1,15 @@
+{
+  "quickstart": {
+    "items": [
+      "strings.welcome_title",
+      "strings.welcome_text_1",
+      "strings.welcome_text_2",
+      "imags.player",
+      "imags.player_up",
+      "imags.player_left",
+      "imags.player_right",
+      "imags.box",
+      "imags.wall"
+    ]
+  }
+}

@@ -19,49 +19,49 @@
         {
           "key": "ground",
           "name": "Floor",
-          "description": "Floor tile - goes under all tiles so is visible if there are transparent areas",
+          "description": "Floor tile - goes under all tiles so is visible if there are transparent areas (will resize to 32x32)",
           "type": "image"
         },
         {
           "key": "player",
           "name": "Player Down",
-          "description": "Player facing down - all other directions will default to this if left empty",
+          "description": "Player facing down - all other directions will default to this if left empty (will resize to 32x32)",
           "type": "image"
         },
         {
           "key": "player_up",
           "name": "Player Up",
-          "description": "Player facing up - will default to player down if left empty",
+          "description": "Player facing up - will default to player down if left empty (will resize to 32x32)",
           "type": "image"
         },
         {
           "key": "player_left",
           "name": "Player Left",
-          "description": "Player facing left - will default to player down if left empty",
+          "description": "Player facing left - will default to player down if left empty (will resize to 32x32)",
           "type": "image"
         },
         {
           "key": "player_right",
           "name": "Player Right",
-          "description": "Player facing right - will default to player down if left empty",
+          "description": "Player facing right - will default to player down if left empty (will resize to 32x32)",
           "type": "image"
         },
         {
           "key": "box",
           "name": "Box",
-          "description": "Box for pushing around map",
+          "description": "Box for pushing around map (will resize to 32x32)",
           "type": "image"
         },
         {
           "key": "wall",
           "name": "Wall",
-          "description": "Wall to block areas of the map",
+          "description": "Wall to block areas of the map (will resize to 32x32)",
           "type": "image"
         },
         {
           "key": "end",
           "name": "End/Exit",
-          "description": "Represents the square where boxes must be pushed to. Will show above all other tiles, use transparent png for best effect.",
+          "description": "Represents the square where boxes must be pushed to. Will show above all other tiles, use transparent png for best effect. (will resize to 32x32)",
           "type": "image"
         }
       ]
