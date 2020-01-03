@@ -5,7 +5,8 @@
     "welcome_text_2": "Push the crates into the slots to win.",
     "level_select_title": "Level Select",
     "level_complete_title": "Level Complete!",
-    "level_complete_text": "Click or press spacebar for next level."
+    "level_complete_text": "Click or press spacebar for next level.",
+    "zoom_tooltip": "Hold to see the full level"
   },
   "@@editor": [
     {
@@ -15,27 +16,45 @@
       "source": "strings.json",
       "fields": [
         {
-          "key": "currency",
-          "name": "Currency Name",
-          "description": "Name of the main currency earned in your game",
-          "type": "text"
-        },
-        {
           "key": "welcome_title",
           "name": "Welcome Title",
           "description": "Title displayed on the welcome modal",
           "type": "text"
         },
         {
-          "key": "welcome_text",
-          "name": "Welcome Text",
-          "description": "Text displayed on the welcome modal",
-          "type": "textarea"
+          "key": "welcome_text_1",
+          "name": "Welcome Text 1",
+          "description": "First text line displayed on the welcome modal",
+          "type": "text"
         },
         {
-          "key": "welcome_button_label",
-          "name": "Welcome Button Label",
-          "description": "Button Label displayed on the welcome modal",
+          "key": "welcome_text_2",
+          "name": "Welcome Text 2",
+          "description": "Second text line displayed on the welcome modal",
+          "type": "text"
+        },
+        {
+          "key": "level_select_title",
+          "name": "Level Select Title",
+          "description": "Title displayed on the level select modal",
+          "type": "text"
+        },
+        {
+          "key": "level_complete_title",
+          "name": "Level Complete Title",
+          "description": "Title dislayed on the level complete modal",
+          "type": "text"
+        },
+        {
+          "key": "level_complete_text",
+          "name": "Level Complete Text",
+          "description": "Text line displayed on the level complete modal",
+          "type": "text"
+        },
+        {
+          "key": "zoom_tooltip",
+          "name": "Zoom tooltip",
+          "description": "Text displayed on the zoom tooltip to help users - if blank tooltip wont display",
           "type": "text"
         }
       ]

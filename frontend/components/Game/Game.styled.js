@@ -156,6 +156,28 @@ export const StyledLevelContainer = styled.div`
 	`}
 `;
 
+export const StyledTooltop = styled.div`
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #FFF;
+	padding: 10px;
+	border-radius: 6px;
+	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+	margin-top: 3px;
+	white-space: nowrap;
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		bottom: 100%;
+		right: 32px;
+		border: 10px solid transparent;
+		border-bottom: 10px solid #FFF;
+	}
+`;
+
 // Use classic inline-style object for imported module component
 export const StyledSwipeable = {
 	touchAction: 'none',

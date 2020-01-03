@@ -13,7 +13,8 @@ import {
 	StyledButtonContainer,
 	StyledGameCell,
 	StyledLevelList,
-	StyledLevelContainer} from './Game.styled';
+	StyledLevelContainer,
+	StyledTooltop} from './Game.styled';
 
 export class Game extends React.Component {
 	EMPTY = 0;
@@ -47,7 +48,8 @@ export class Game extends React.Component {
 			levelSelect: false,
 			levelsCompleted: [],
 			offset: {x:0,y:0},
-			zoom: false
+			zoom: false,
+			hasZoomed: false
 		};
 		this.currentLevel = props.currentLevel,
 		this.images[this.EMPTY] = '';
@@ -261,9 +263,7 @@ export class Game extends React.Component {
 	zoomOut = () => {
 		let max_dimension = Math.max(this.COL_MAX, this.ROW_MAX) + 1;
 		let scale = max_dimension > this.SCALE_MAX ? this.SCALE_MAX/max_dimension : false;
-		console.log(scale);
-		console.log(max_dimension)
-		this.setState({zoom:scale});
+		this.setState({zoom:scale, hasZoomed: true});
 	};
 
 	zoomReset = () => {
@@ -271,7 +271,17 @@ export class Game extends React.Component {
 	};
 
 	render() {
-		let { level, win, currentLevel, readInstructions, levelSelect, levelsCompleted, offset, zoom } = this.state;
+		let {
+			level,
+			win,
+			currentLevel,
+			readInstructions,
+			levelSelect,
+			levelsCompleted,
+			offset,
+			zoom,
+			hasZoomed
+		} = this.state;
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
 		let backgroundClass = this.animateBackground ? 'animate' : '';
 		backgroundClass += this.useFloorImage ? ' darken' : '';
@@ -303,6 +313,11 @@ export class Game extends React.Component {
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z"/></svg>
 						</StyledButton>)}
+						{(canZoom && !hasZoomed && Koji.config.strings.zoom_tooltip &&
+							<StyledTooltop>
+								{Koji.config.strings.zoom_tooltip}
+							</StyledTooltop>
+						)}
 					</StyledButtonContainer>
 					<StyledLevelContainer offset={offset} zoom={zoom}>
 						<StyledBackgroundContainer>
