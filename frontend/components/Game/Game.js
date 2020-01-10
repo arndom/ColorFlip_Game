@@ -39,6 +39,7 @@ export class Game extends React.Component {
 	OFFSET_THRESHOLD = 2;
 	SCALE_MAX = 7;
 	LEVELS_PER_PAGE = 14;
+    initial_level_string = '';
 
 	constructor(props) {
 		super(props);
@@ -78,6 +79,13 @@ export class Game extends React.Component {
 		document.addEventListener('keydown', this.keyDown);
 	}
 
+    shouldComponentUpdate(nextProps,nextState) {
+        let new_level_string = JSON.stringify(Koji.config.levels.levels[this.currentLevel]);
+        if (this.initial_level_string != new_level_string) {
+            this.loadLevelFromString(new_level_string,this.currentLevel);
+        }
+        return true;
+    }
 
 	keyDown = (event) => {
 		let key = event.key || event.keyCode;
@@ -121,10 +129,10 @@ export class Game extends React.Component {
 		}
 	}
 
-	loadLevel = (levelNumber) => {
-		// Use stringify->parse to get a deep copy and not edit the config json
-		let levelData = JSON.parse(JSON.stringify(Koji.config.levels.levels[levelNumber]));
-		let level = levelData['level'];
+    loadLevelFromString = (levelString, levelNumber) => {
+        this.initial_level_string = levelString;
+        let levelData = JSON.parse(this.initial_level_string);
+        let level = levelData['level'];
 		this.ends = levelData['ends'];
 		this.ROW_MAX = level.length - 1;
 		this.COL_MAX = level[0].length - 1;
@@ -133,6 +141,11 @@ export class Game extends React.Component {
 		this.saveGame();
 		this.updateOffset(this.findPlayer(level));
 		this.setState({'level': level, 'win': false, 'levelSelect': false});
+    };
+
+	loadLevel = (levelNumber) => {
+		// Use stringify and later parse to get a deep copy and not edit the config obj
+		this.loadLevelFromString(JSON.stringify(Koji.config.levels.levels[levelNumber]), levelNumber)
 	};
 
 	restartLevel = () => {
@@ -324,7 +337,7 @@ export class Game extends React.Component {
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
 		let backgroundClass = this.animateBackground ? 'animate' : '';
 		backgroundClass += this.useFloorImage ? ' darken' : '';
-		const levels = Koji.config.levels.levels;
+		const levels = JSON.parse(JSON.stringify(Koji.config.levels.levels));
 		const max_dimension = Math.max(this.COL_MAX, this.ROW_MAX) + 1;
 		const canZoom = max_dimension > this.SCALE_MAX;
 		return(
