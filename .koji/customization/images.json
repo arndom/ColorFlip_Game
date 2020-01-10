@@ -1,5 +1,6 @@
 {
   "images": {
+    "logo": "",
     "ground": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/q6ssr-ground.png",
     "player": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/t0o0u-player.png",
     "player_up": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/trccp-player_up.png",
@@ -16,6 +17,12 @@
       "icon": "🖼️",
       "source": "images.json",
       "fields": [
+        {
+          "key": "logo",
+          "name": "Game logo",
+          "description": "Appears on the welcome screen, will override welcome text if set",
+          "type": "image"
+        },
         {
           "key": "ground",
           "name": "Floor",

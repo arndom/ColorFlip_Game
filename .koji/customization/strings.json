@@ -18,7 +18,7 @@
         {
           "key": "welcome_title",
           "name": "Welcome Title",
-          "description": "Title displayed on the welcome modal",
+          "description": "Title displayed on the welcome modal - will be overridden by the logo image if that is set",
           "type": "text"
         },
         {
