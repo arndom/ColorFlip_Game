@@ -432,7 +432,12 @@ export class Game extends React.Component {
 			)}
 			{(!readInstructions &&
 				<Modal close={this.closeInstructions}>
-					<h3>{Koji.config.images.logo ? Koji.config.images.logo : Koji.config.strings.welcome_title}</h3>
+                    {(Koji.config.images.logo &&
+                        <img src={Koji.config.images.logo}/>
+                    )}
+                    {(!Koji.config.images.logo &&
+                        <h3>{Koji.config.strings.welcome_title}</h3>
+                    )}
 					<p>{Koji.config.strings.welcome_text_1}<br/>{Koji.config.strings.welcome_text_2}</p>
 					<StyledButton onClick={this.closeInstructions}>
 						Start
