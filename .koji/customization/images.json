@@ -1,13 +1,13 @@
 {
   "images": {
-    "logo": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/jvwb3-playerFace_dark.png",
-    "ground": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/q6ssr-ground.png",
-    "player": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/t0o0u-player.png",
+    "logo": "https://images.koji-cdn.com/a07834f7-c785-4ceb-94b3-69dcbf342362/h2li5-21.png",
+    "ground": "https://images.koji-cdn.com/a07834f7-c785-4ceb-94b3-69dcbf342362/225rd-1.png",
+    "player": "https://images.koji-cdn.com/a07834f7-c785-4ceb-94b3-69dcbf342362/riw28-15.png",
     "player_up": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/trccp-player_up.png",
     "player_left": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/8ho59-player_left.png",
     "player_right": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/tfml7-player_right.png",
     "box": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/tkyar-crate.png",
-    "wall": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/6h81f-block.png",
+    "wall": "https://images.koji-cdn.com/a07834f7-c785-4ceb-94b3-69dcbf342362/q4q22-14.png",
     "end": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/1imef-end.png"
   },
   "@@editor": [
@@ -36,39 +36,9 @@
           "type": "image"
         },
         {
-          "key": "player_up",
-          "name": "Player Up",
-          "description": "Player facing up - will default to player down if left empty (will resize to 32x32)",
-          "type": "image"
-        },
-        {
-          "key": "player_left",
-          "name": "Player Left",
-          "description": "Player facing left - will default to player down if left empty (will resize to 32x32)",
-          "type": "image"
-        },
-        {
-          "key": "player_right",
-          "name": "Player Right",
-          "description": "Player facing right - will default to player down if left empty (will resize to 32x32)",
-          "type": "image"
-        },
-        {
-          "key": "box",
-          "name": "Box",
-          "description": "Box for pushing around map (will resize to 32x32)",
-          "type": "image"
-        },
-        {
           "key": "wall",
           "name": "Wall",
           "description": "Wall to block areas of the map (will resize to 32x32)",
-          "type": "image"
-        },
-        {
-          "key": "end",
-          "name": "End/Exit",
-          "description": "Represents the square where boxes must be pushed to. Will show above all other tiles, use transparent png for best effect. (will resize to 32x32)",
           "type": "image"
         }
       ]

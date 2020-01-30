@@ -2,7 +2,7 @@
   "strings": {
     "welcome_title": "Welcome to Sokoban!",
     "welcome_text_1": "Use the arrow keys or swipe to move.",
-    "welcome_text_2": "Push the crates into the slots to win.",
+    "welcome_text_2": "Get the Level filled with gems completely!",
     "level_select_title": "Level Select",
     "level_complete_title": "Level Complete!",
     "level_complete_text": "Click or press spacebar for next level.",

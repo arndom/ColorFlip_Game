@@ -1,6 +1,8 @@
 import styled, { keyframes, css } from 'styled-components';
 import Koji from '@withkoji/vcc';
 
+
+
 export const StyledBackgroundContainer = styled.div`
 	position: absolute;
 	left: 50%;
