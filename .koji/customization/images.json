@@ -26,19 +26,19 @@
         {
           "key": "ground",
           "name": "Floor",
-          "description": "Floor tile - goes under all tiles so is visible if there are transparent areas (will resize to 32x32)",
+          "description": "Floor tile",
           "type": "image"
         },
         {
           "key": "player",
-          "name": "Player Down",
-          "description": "Player facing down - all other directions will default to this if left empty (will resize to 32x32)",
+          "name": "Checkpoint ",
+          "description": "Start Point of the game",
           "type": "image"
         },
         {
           "key": "wall",
           "name": "Wall",
-          "description": "Wall to block areas of the map (will resize to 32x32)",
+          "description": "Gem tiles in the Game",
           "type": "image"
         }
       ]

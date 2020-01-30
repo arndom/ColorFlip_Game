@@ -587,7 +587,7 @@
     {
       "key": "levels",
       "name": "Levels",
-      "icon": "🗺",
+      "icon": "🎟",
       "source": "levels.json",
       "fields": [
         {
