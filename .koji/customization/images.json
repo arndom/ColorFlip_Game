@@ -8,7 +8,10 @@
     "player_right": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/tfml7-player_right.png",
     "box": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/tkyar-crate.png",
     "wall": "https://images.koji-cdn.com/a07834f7-c785-4ceb-94b3-69dcbf342362/q4q22-14.png",
-    "end": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/1imef-end.png"
+    "end": "https://images.koji-cdn.com/d7c9b383-4810-46c6-b8b3-605af0177386/1imef-end.png",
+    "mark": "https://images.koji-cdn.com/a07834f7-c785-4ceb-94b3-69dcbf342362/o9879-Webp.netresizeimage.png",
+    "win": "https://images.koji-cdn.com/a07834f7-c785-4ceb-94b3-69dcbf342362/khjsi-win2.png",
+    "home": "https://images.koji-cdn.com/a07834f7-c785-4ceb-94b3-69dcbf342362/d3ylc-23.png"
   },
   "@@editor": [
     {
@@ -20,7 +23,13 @@
         {
           "key": "logo",
           "name": "Game logo",
-          "description": "Appears on the welcome screen, will override welcome text if set",
+          "description": "Appears on the Instructions screen",
+          "type": "image"
+        },
+        {
+          "key": "home",
+          "name": "Home logo",
+          "description": "Appears on the welcome screen, preferred size of 256 x 256",
           "type": "image"
         },
         {
@@ -33,6 +42,18 @@
           "key": "player",
           "name": "Checkpoint ",
           "description": "Start Point of the game",
+          "type": "image"
+        },
+        {
+          "key": "mark",
+          "name": "Question Mark",
+          "description": "image for the instruction button. preferred size is 36x36",
+          "type": "image"
+        },
+        {
+          "key": "win",
+          "name": "Win Image",
+          "description": "Image for when the Player has finished the game",
           "type": "image"
         },
         {

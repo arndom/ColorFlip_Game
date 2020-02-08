@@ -26,10 +26,10 @@ export const StyledGameContainer = styled.div`
 	background-color: ${Koji.config.colors.backgroundColor};
 	background-image: url("${props => props.backgroundImage}");
 	background-size: 128px 128px;
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 100vh;
 	box-sizing: border-box;
-	padding: 20px;
+	padding: 50px;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -66,11 +66,11 @@ export const StyledGameRow = styled.div`
 	z-index: 10;
 `;
 
-export const StyledGameCell = styled.span`
-	display: inline-block;
+export const StyledGameCell = styled.span`	
+    flex: auto
 	padding: 5px;
-	width: 32px;
-	height: 32px;
+	width: 2.5rem;
+	height: 2.5rem;
 	background-image: url("${props => props.image}");
 	background-size: contain;
 	&.end {
@@ -79,7 +79,7 @@ export const StyledGameCell = styled.span`
 `;
 
 export const StyledButtonContainer = styled.div`
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	display: flex;
 	justify-content: center;
 	position: relative;
@@ -87,6 +87,7 @@ export const StyledButtonContainer = styled.div`
 `;
 
 export const StyledButton = styled.a`
+    flex-grow: fill;
 	text-decoration: none;
 	display: inline-block;
 	padding: 5px 15px;

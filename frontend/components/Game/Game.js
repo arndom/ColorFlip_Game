@@ -1,7 +1,10 @@
 import React from 'react';
 import Koji from '@withkoji/vcc';
-import { useSwipeable, Swipeable } from 'react-swipeable'
+import { useSwipeable, Swipeable } from 'react-swipeable';
 import { Modal } from '../Modal';
+import { Home } from '../Modal';
+
+
 
 
 import {
@@ -51,10 +54,15 @@ export class Game extends React.Component {
 			levelsCompleted: [],
 			offset: {x:0,y:0},
 			zoom: false,
-			hasZoomed: false
+			hasZoomed: false,
+            isFlipped: false
+
 		};
 		this.currentLevel = props.currentLevel,
 		this.images[this.EMPTY] = '';
+
+        this.flip = this.flip.bind(this);
+
 
 		this.images[this.PLAYER] = [];
 		this.images[this.PLAYER][this.PLAYER_DOWN] = Koji.config.images.player,
@@ -64,6 +72,8 @@ export class Game extends React.Component {
 
 		this.images[this.WALL] = Koji.config.images.wall;
 		this.groundImage = Koji.config.images.ground;
+
+		this.questionmark = Koji.config.images.mark;
 
 		this.useFloorImage = Koji.config.background.useFloorImage;
 		this.backgroundImage = Koji.config.background.backgroundImage;
@@ -90,15 +100,19 @@ export class Game extends React.Component {
 		let key = event.key || event.keyCode;
 		if (key === "ArrowLeft" || key === 37) {
 			this.moveLeft();
+
 		}
 		if (key === "ArrowRight" || key === 39) {
 			this.moveRight();
+
 		}
 		if (key === "ArrowUp" || key === 38) {
 			this.moveUp();
+
 		}
 		if (key === "ArrowDown" || key === 40) {
 			this.moveDown();
+
 		}
 		if (key === " " || key === 32) {
 			if (this.state.win) {
@@ -144,6 +158,7 @@ export class Game extends React.Component {
 	loadLevel = (levelNumber) => {
 		// Use stringify and later parse to get a deep copy and not edit the config obj
 		this.loadLevelFromString(JSON.stringify(Koji.config.levels.levels[levelNumber]), levelNumber)
+		
 	};
 
 	restartLevel = () => {
@@ -153,16 +168,43 @@ export class Game extends React.Component {
 	nextLevel = () => {
 		this.currentLevel += 1;
 		this.loadLevel(this.currentLevel);
+	
+		// if(this.currentLevel === ((Koji.config.levels.levels).length -1) ){
+			
+		// 		this.lastLevel();
+
+			
+		// }
 	};
+  
+    lastLevel = () => {
+        this.setState({levellast : true})
+    } 
 
 	closeInstructions = () => {
 		this.setState({readInstructions:true}, this.saveGame);
+	};
+    closeHomeScreen = () => {
+		this.setState({startGame:true}, this.saveGame);
 	};
 
 	openLevelSelect = () => {
 		let currentPage = Math.floor(this.currentLevel / this.LEVELS_PER_PAGE);
 		this.setState({levelSelect:true, levelSelectPage:currentPage});
 	};
+
+    openLevelSelectAfterWin = () => {
+        let currentPage = Math.floor(this.currentLevel / this.LEVELS_PER_PAGE);
+		this.setState({levelSelect:true, levelSelectPage:currentPage, levellast : false});
+    }
+
+	openIns = () => {
+		this.setState({openins:true});
+	}
+
+	closeOpenIns = () => {
+		this.setState({openins:false});
+	} 
 
 	closeLevelSelect = () => {
 		this.setState({levelSelect:false});
@@ -197,6 +239,10 @@ export class Game extends React.Component {
 		this.setState({"level": level});
 	};
 
+    flip = () => {
+        this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
+    }
+
     move = (x,y) => {
 		let player = this.findPlayer(this.state.level);
 		let target = {x:player.x+x, y:player.y+y};
@@ -211,19 +257,30 @@ export class Game extends React.Component {
             let groundT = {x: target.x-x,  y: target.y-y };
             this.setPosition(target, this.PLAYER);
             this.setPosition(groundT, this.EMPTY);
+            this.flip();
             if (this.win()) {
 				    this.setState({'win': true});
+					//end of levels condition
+					if(this.currentLevel === ((Koji.config.levels.levels).length -1) ){
+						this.lastLevel();
+					}
 			      }      
             return true;
 		}
-        
+    
         // draw tile
         if(this.atPosition(target) == this.EMPTY){
             
             this.setPosition(target, this.PLAYER);
+            
             this.setPosition(player, this.WALL);
+            this.flip();
             if (this.win()) {
 				    this.setState({'win': true});
+					//end of levels condition
+					if(this.currentLevel === ((Koji.config.levels.levels).length -1) ){
+						this.lastLevel();
+					}
 			      }      
             return true;
         }
@@ -233,21 +290,27 @@ export class Game extends React.Component {
 
 	moveLeft = () => {
 		this.move(-1,0);
+
 	};
 
 	moveRight = () => {
 		this.move(1,0);
+
 	};
 
 	moveDown = () => {
 		this.move(0,1);
+
 	};
 
 	moveUp = () => {
 		this.move(0,-1);
+
 	};
 
 	win = () => {
+
+        
 
         let level = this.state.level;
         for (var i = level.length - 1; i >= 0; i--) {
@@ -256,6 +319,7 @@ export class Game extends React.Component {
 					return false;
 				}
 			}
+            // console.log(currentLevel)
 		}
 
 		let { levelsCompleted } = this.state;
@@ -305,12 +369,15 @@ export class Game extends React.Component {
 			win,
 			currentLevel,
 			readInstructions,
+            startGame,
 			levelSelect,
 			levelsCompleted,
 			offset,
 			zoom,
 			hasZoomed,
-			levelSelectPage
+			levelSelectPage,
+			openins,
+            levellast
 		} = this.state;
         
 		let backgroundImage = this.useFloorImage ? this.groundImage : this.backgroundImage;
@@ -320,174 +387,246 @@ export class Game extends React.Component {
 		const max_dimension = Math.max(this.COL_MAX, this.ROW_MAX) + 1;
 		const canZoom = max_dimension > this.SCALE_MAX;
 
+
 		return(
 
-			<Swipeable
+
+            <Swipeable
+            
 				style={StyledSwipeable}
 				onSwipedLeft={this.moveLeft}
 				onSwipedRight={this.moveRight}
 				onSwipedUp={this.moveUp}
 				onSwipedDown={this.moveDown}>
 
-			<StyledGameContainer backgroundImage={backgroundImage} className={backgroundClass}>
+                
 
-				<StyledGameContainerInner>
-                    
-                    
-                    <StyledButtonContainer>
 
-						<StyledButton onClick={this.openLevelSelect}>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-						</StyledButton>
+                <StyledGameContainer backgroundImage={backgroundImage} className={backgroundClass}>
 
-						<StyledButton onClick={this.restartLevel}>
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-						</StyledButton>
+                    <StyledGameContainerInner>
                         
-						{(canZoom && <StyledButton
-							onTouchStart={this.zoomOut}
-							onTouchEnd={this.zoomReset}
-							onMouseDown={this.zoomOut}
-							onMouseUp={this.zoomReset}
-							onMouseLeave={this.zoomReset}
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z"/></svg>
-						</StyledButton>)}
+                        
+                        <StyledButtonContainer>
 
-						{(canZoom && !hasZoomed && Koji.config.strings.zoom_tooltip &&
-							<StyledTooltop>
-								{Koji.config.strings.zoom_tooltip}
-							</StyledTooltop>
-						)}
+                            <StyledButton onClick={this.openLevelSelect}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                            </StyledButton>
 
-					</StyledButtonContainer>
+                            <StyledButton onClick={this.restartLevel}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                            </StyledButton>
+
+                            <StyledButton onClick={this.openIns}>
+                                <div style  = {{ fontSize: "24px", width: "36px", fontWeight:"bold"}}>&#63;</div>
+                            </StyledButton>
+                            
+                            {(canZoom && <StyledButton
+                                onTouchStart={this.zoomOut}
+                                onTouchEnd={this.zoomReset}
+                                onMouseDown={this.zoomOut}
+                                onMouseUp={this.zoomReset}
+                                onMouseLeave={this.zoomReset}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"/><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z"/></svg>
+                            </StyledButton>)}
+
+                            {(canZoom && !hasZoomed && Koji.config.strings.zoom_tooltip &&
+                                <StyledTooltop>
+                                    {Koji.config.strings.zoom_tooltip}
+                                </StyledTooltop>
+                            )}
+
+                        </StyledButtonContainer>
+                        
                     
-                   
-					<StyledLevelContainer offset={offset} zoom={zoom}>
+                        <StyledLevelContainer offset={offset} zoom={zoom}>
 
-						<StyledBackgroundContainer>
-							{level.map(
-								(row, row_index) => {
-									return(
-									<StyledGameRow key={row_index}>
-										{
-											row.map(
-												(cell, cell_index) => {
-													return(
-														<StyledGameCell
-															key={cell_index}
-															image={this.groundImage}
-														/>
-													)
-												}
-											)
-										}
-									</StyledGameRow>
-									)
+                            <StyledBackgroundContainer>
+                                {level.map(
+                                    (row, row_index) => {
+                                        return(
+                                        <StyledGameRow key={row_index}>
+                                            {
+                                                row.map(
+                                                    (cell, cell_index) => {
+                                                        return(
+                                                            <StyledGameCell
+                                                                key={cell_index}
+                                                                image={this.groundImage}
+                                                            />
+                                                        )
+                                                    }
+                                                )
+                                            }
+                                        </StyledGameRow>
+                                        )
 
-								}
-							)}
-						</StyledBackgroundContainer>
+                                    }
+                                )}
+                            </StyledBackgroundContainer>
 
-						{level.map(
-							(row, row_index) => {
-								return(
-								<StyledGameRow key={row_index}>
-									{
-										row.map(
-											(cell, cell_index) => {
-												return(
-													<StyledGameCell
-														key={cell_index}
-														image={cell == this.PLAYER ? this.images[this.PLAYER][this.player_direction] : this.images[cell]}
-													/>
-												)
-											}
-										)
-									}
-								</StyledGameRow>
-								)
+                            {level.map(
+                                (row, row_index) => {
+                                    return(
+                                    <StyledGameRow key={row_index}>
+                                        {
+                                            row.map(
+                                                (cell, cell_index) => {
+                                                    return(
+                                                        <StyledGameCell
+ 
+                                                            key={cell_index}
+                                                            image={cell == this.PLAYER ? this.images[this.PLAYER][this.player_direction] : this.images[cell]}
+                                                        />
+                                                    )
+                                                }
+                                            )
+                                        }
+                                    </StyledGameRow>
+                                    )
 
-							}
-						)}
+                                }
+                            )}
 
-					</StyledLevelContainer>
+                        </StyledLevelContainer>
 
-				</StyledGameContainerInner>
+                    </StyledGameContainerInner>
 
-			</StyledGameContainer>
+                </StyledGameContainer>
 
-            
-			{(win &&
-				<Modal>
-					<h3>{Koji.config.strings.level_complete_title}</h3>
-					<p>{Koji.config.strings.level_complete_text}</p>
-					<StyledButton onClick={this.nextLevel}>
-						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-					</StyledButton>
-				</Modal>
-			)}
+                
+                {(win &&
+                    <Modal>
+                        <h3>{Koji.config.strings.level_complete_title}</h3>
+                        <p>{Koji.config.strings.level_complete_text}</p>
+                        <StyledButton onClick={this.nextLevel}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                        </StyledButton>
+                    </Modal>
+                )}
 
-            
-			{(!readInstructions &&
-				<Modal close={this.closeInstructions}>
-                    {(Koji.config.images.logo &&
-                        <img src={Koji.config.images.logo}/>
-                    )}
-                    {(!Koji.config.images.logo &&
-                        <h3>{Koji.config.strings.welcome_title}</h3>
-                    )}
-										<p>{Koji.config.strings.welcome_text_1}<br/>{Koji.config.strings.welcome_text_2}</p>
-					<StyledButton onClick={this.closeInstructions}>
-						Start
-					</StyledButton>
-				</Modal>
-			)}
+                {(!readInstructions &&
+                    <Modal close={this.closeInstructions}>
+                        {(Koji.config.images.logo &&
+                            <img src={Koji.config.images.logo}/>
+                        )}  
+                        {(!Koji.config.images.logo &&
+                            <h3>{Koji.config.strings.welcome_title}</h3>
+                        )}
+                        <p>{Koji.config.strings.welcome_text_1}<br/>{Koji.config.strings.welcome_text_2}</p>
+                        <StyledButton onClick={this.closeInstructions}>
+                            GOT IT
+                        </StyledButton>
+                    </Modal>
+                )}
 
-            
-			{(levelSelect &&
-				<Modal close={this.closeLevelSelect}>
+                {(!startGame &&
+                    <Home>
+                        <div style={{ background: "linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C)", height: "93vh", width: "75vw", margin: "auto", display:"block"}}>
+                            
+                            <div style = {{paddingTop: "10vh"}}>
+                                {(Koji.config.images.home &&
+                                    <img src={Koji.config.images.home}/>
+                                )}
+                            
+                                {(!Koji.config.images.home &&
+                                    <h3>{Koji.config.strings.fallbackText}</h3>
+                                )}
+                            </div>
+                            
 
-					<h3>{Koji.config.strings.level_select_title}</h3>
+                            <div  style = {{paddingTop: "10vh"}}>
+                                <StyledButton onClick={this.closeHomeScreen}>
+                                    <h2>{Koji.config.strings.play}</h2>
+                                </StyledButton>
+                            </div>
 
-					<StyledLevelList>
+                        </div>
 
-						{(levelSelectPage!= 0 &&
-							<StyledButton key={'back'} onClick={this.levelSelectBack}>
-									&lsaquo;
-							</StyledButton>
-						)}
+                    </Home>
+                )}
 
-						{levels.map(
-							(level, level_index) => {
-								if (Math.floor(level_index /this.LEVELS_PER_PAGE) == levelSelectPage) {
-								return(
-									<span key={'container-'+level_index}>
-										<StyledButton
-											className={
-												(levelsCompleted.includes(level_index) ? 'done' : '') +
-												(this.currentLevel == level_index ? ' current': '')
-											}
-											key={level_index}
-											onClick={()=>{this.loadLevel(level_index)}}>
-												{level_index+1}
-										</StyledButton>
-									</span>
-								)}
-							}
-						)}
 
-						{( Math.floor((levels.length - 1) / this.LEVELS_PER_PAGE) > levelSelectPage &&
-							<StyledButton key={'forward'} onClick={this.levelSelectForward}>
-									&rsaquo;
-							</StyledButton>
-						)}
+                {(openins &&
+                    <Modal close = {this.closeOpenIns}>
+                        {(Koji.config.images.logo &&
+                            <img src={Koji.config.images.logo}/>
+                        )}
+                        {(!Koji.config.images.logo &&
+                            <h3>{Koji.config.strings.welcome_title}</h3>
+                        )}
+                        <p>{Koji.config.strings.welcome_text_1}<br/>{Koji.config.strings.welcome_text_2}</p>
+                    </Modal>
+                )}
 
-					</StyledLevelList>
-				</Modal>
-			)}
+                {(levellast &&
+                    <Modal>
+                        {(Koji.config.images.win &&
+                            <img src={Koji.config.images.win}/>
+                        )}
+                            {(!Koji.config.images.win &&
+                                <h3>{Koji.config.strings.win_text_1}</h3>
+                            )}
+
+                        <p>{Koji.config.strings.win_text_2}</p>
+                            
+
+                            <StyledButton onClick={this.openLevelSelectAfterWin}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                            </StyledButton>
+
+                            
+                    </Modal>
+                )}
+
+
+                
+                {(levelSelect &&
+                    <Modal close={this.closeLevelSelect}>
+
+                        <h3>{Koji.config.strings.level_select_title}</h3>
+
+                        <StyledLevelList>
+
+                            {(levelSelectPage!= 0 &&
+                                <StyledButton key={'back'} onClick={this.levelSelectBack}>
+                                        &lsaquo;
+                                </StyledButton>
+                            )}
+
+                            {levels.map(
+                                (level, level_index) => {
+                                    if (Math.floor(level_index /this.LEVELS_PER_PAGE) == levelSelectPage) {
+                                    return(
+                                        <span key={'container-'+level_index}>
+                                            <StyledButton
+                                                className={
+                                                    (levelsCompleted.includes(level_index) ? 'done' : '') +
+                                                    (this.currentLevel == level_index ? ' current': '')
+                                                }
+                                                key={level_index}
+                                                onClick={()=>{this.loadLevel(level_index)}}>
+                                                    {level_index+1}
+                                            </StyledButton>
+                                        </span>
+                                    )}
+                                }
+                            )}
+
+                            {( Math.floor((levels.length - 1) / this.LEVELS_PER_PAGE) > levelSelectPage &&
+                                <StyledButton key={'forward'} onClick={this.levelSelectForward}>
+                                        &rsaquo;
+                                </StyledButton>
+                            )}
+
+                        </StyledLevelList>
+                    </Modal>
+                )}
 
 			</Swipeable>
+
+			
 		);
 	}
 }

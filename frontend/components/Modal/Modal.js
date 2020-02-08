@@ -1,12 +1,15 @@
 import React from 'react';
 import Koji from '@withkoji/vcc';
-import { StyledModal, StyledModalInner, StyledClose } from './Modal.styled';
+import { StyledModal, StyledModalInner, StyledClose, StyledHome, StyledHomeInner } from './Modal.styled';
+
+
 
 export class Modal extends React.Component {
 	render() {
 		const { close } = this.props;
 
 		return(
+
 			<StyledModal>
 				<StyledModalInner>
 					{(close && <StyledClose onClick={this.props.close}>
@@ -16,6 +19,7 @@ export class Modal extends React.Component {
 					{this.props.children}
 				</StyledModalInner>
 			</StyledModal>
+
 		);
 	}
 }

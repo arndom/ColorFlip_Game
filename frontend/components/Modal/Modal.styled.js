@@ -36,10 +36,30 @@ export const StyledModal = styled.div`
 	animation-timing-function: ease-in-out;
 `;
 
+export const StyledHome = styled.div`
+	background-color: rgba(0,0,0,0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	box-sizing: border-box;
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	animation-duration: 0.4s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in-out;
+
+`;
+
+	
 export const StyledModalInner = styled.div`
+    flex-basis: fill;
 	background-color: white;
 	padding: 20px;
-	border-radius: 6px;
+    border-radius: 6px;
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	text-align: center;
 	animation-name: ${slideIn};
@@ -47,6 +67,23 @@ export const StyledModalInner = styled.div`
 	animation-iteration-count: 1;
 	animation-timing-function: ease-in-out;
 	position: relative;
+`;
+
+export const StyledHomeInner = styled.div`
+    flex-basis: fill;
+    background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+	padding: 20px;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 6px;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	text-align: center;
+	animation-name: ${slideIn};
+	animation-duration: 0.4s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in-out;
+	position: relative;
+
 `;
 
 export const StyledClose = styled.a`

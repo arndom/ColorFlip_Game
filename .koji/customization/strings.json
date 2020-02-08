@@ -6,7 +6,12 @@
     "level_select_title": "Level Select",
     "level_complete_title": "Level Complete!",
     "level_complete_text": "Click or press spacebar for next level.",
-    "zoom_tooltip": "Hold to see the full level"
+    "zoom_tooltip": "Hold to see the full level",
+    "win_text_1": "You have WON!!",
+    "win_text_2": "Nice Game, Wanna give it another go?!",
+    "play": "PLAY",
+    "fallbackText": "COLOR FLIP",
+    "inst": "GOT IT"
   },
   "@@editor": [
     {
@@ -22,15 +27,45 @@
           "type": "text"
         },
         {
+          "key": "fallbackText",
+          "name": "The Game Title",
+          "description": "Game Title- will be overridden by the Game Image if that is set",
+          "type": "text"
+        },
+        {
           "key": "welcome_text_1",
           "name": "Welcome Text 1",
           "description": "First text line displayed on the welcome modal",
           "type": "text"
         },
         {
+          "key": "play",
+          "name": "Play Button Text",
+          "description": "Play Button Text",
+          "type": "text"
+        },
+        {
+          "key": "inst",
+          "name": "Instruction Button Text",
+          "description": "Instruction Button Text",
+          "type": "text"
+        },
+        {
           "key": "welcome_text_2",
           "name": "Welcome Text 2",
           "description": "Second text line displayed on the welcome modal",
+          "type": "text"
+        },
+        {
+          "key": "win_text_1",
+          "name": "Win text 1",
+          "description": "Win text on Win Screen - will be overidden by the Win image if that is set",
+          "type": "text"
+        },
+        {
+          "key": "win_text_2",
+          "name": "Win text 2",
+          "description": "Congratulatory text for winning the game",
           "type": "text"
         },
         {
