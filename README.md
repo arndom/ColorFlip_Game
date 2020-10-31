@@ -1,3 +1,5 @@
+View game on live link: https://withkoji.com/~arndomGuy/color-flip-1
+
 # Simple React Scaffold
 
 Welcome to your new Koji React Project.
